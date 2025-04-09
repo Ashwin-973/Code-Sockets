@@ -1,9 +1,0 @@
-{
-    "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"] //alias understood only by the code-editor - //is this regex?
-      
-    }
-  }
-}

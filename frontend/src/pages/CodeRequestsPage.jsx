@@ -1,8 +1,8 @@
-import { NavBar } from "@/components/Navbar";//fckin change this navbar
-import { HeroBar } from "@/components/HeroBar";
-import { DynamicGrid } from "@/components/DynamicGrid";
-import { SideBar } from "@/components/SideBar";
-import { useRequestContext } from "@/context/requestContext";
+import { NavBar} from "../components/Navbar";//fckin change this navbar
+import { HeroBar } from "../components/HeroBar";
+import { DynamicGrid } from "../components/DynamicGrid";
+import { SideBar } from "../components/SideBar";
+import { useRequestContext } from "../context/requestContext";
 
 
 

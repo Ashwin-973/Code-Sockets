@@ -1,10 +1,19 @@
+// import { getAnalytics } from "firebase/analytics";
+import dotenv from 'dotenv'
+import path from 'path'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from 'firebase/firestore';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({path:path.join(__dirname,".env"),debug:false});
+const{FIREBASE_KEY}=process.env
+
 const firebaseConfig = {
-  apiKey: "AIzaSyAQT-S_cl06NJpIwOEir5baU0ceocn1e0c",
+  apiKey: FIREBASE_KEY,
   authDomain: "code-sockets.firebaseapp.com",
   projectId: "code-sockets",
   storageBucket: "code-sockets.firebasestorage.app",
@@ -16,7 +25,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
-export const firestore=getFirestore(app);
+const firestore=getFirestore(app);
 
+export {firestore,__dirname}
 
 

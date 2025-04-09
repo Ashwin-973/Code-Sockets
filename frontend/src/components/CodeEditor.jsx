@@ -1,6 +1,6 @@
 import { useRef, useState,useEffect } from "react";
-import { useRequestContext } from "@/context/requestContext";
-import { skill_level } from "@/constants/skill";
+import { useRequestContext } from "../context/requestContext";
+import { skill_level } from "../constants/skill";
 import { Box, HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
@@ -17,7 +17,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "./ui/select"
 import { Avatar } from "./ui/avatar"; //swap this with hero's avatar later as it offers group avatars && Hold this for now
 
 
