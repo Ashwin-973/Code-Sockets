@@ -1,10 +1,12 @@
+import dotenv from 'dotenv'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from 'firebase/firestore';
-
+dotenv.config({path:"C:\\Users\\Ashwi\\Documents\\Web Development\\WebDEV\\Sample\\Code-Sockets\\.env"});
+const {FIREBASE_KEY}=process.env
 const firebaseConfig = {
-  apiKey: "AIzaSyAQT-S_cl06NJpIwOEir5baU0ceocn1e0c",
+  apiKey: FIREBASE_KEY,
   authDomain: "code-sockets.firebaseapp.com",
   projectId: "code-sockets",
   storageBucket: "code-sockets.firebasestorage.app",
