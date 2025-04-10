@@ -1,5 +1,5 @@
 import { useModal } from '../hooks/useModal'
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext,useEffect } from 'react';
 import {getRequests,getRequest,postRequest,deleteRequest,updateRequest} from '../services/codeBuddyService'
 
 const RequestContext = createContext();
@@ -17,9 +17,12 @@ export const RequestProvider = ({ children }) => {
     setSelectedRequest(request);
   };
   //avoids request state duplication while adding new requests
-  if(!isOpen){
-    setSelectedRequest(null);
-  }
+  useEffect(()=>
+  {
+    if(!isOpen){
+      setSelectedRequest(null);
+    }
+  },[isOpen])
 
   const addRequest = async (requestData) => {   //when does this run?
     setIsLoading(true);
