@@ -3,7 +3,6 @@ import { useRequestContext } from "../context/requestContext";
 import { skill_level } from "../constants/skill";
 import { Box, HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
-import LanguageSelector from "./LanguageSelector";
 import { CODE_SNIPPETS } from "../constants/editor"
 import { IconUrgent } from "@tabler/icons-react";  //urgent toggle
 import { Toggle } from "./ui/toggle";
