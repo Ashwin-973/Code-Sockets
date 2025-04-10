@@ -7,6 +7,11 @@ import { dirname } from 'path';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({path:path.join(__dirname,".env"),debug:false});
+const{FIREBASE_KEY}=process.env
+
 const firebaseConfig = {
   apiKey: FIREBASE_KEY,
   authDomain: "code-sockets.firebaseapp.com",
