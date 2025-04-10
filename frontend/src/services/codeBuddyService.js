@@ -1,5 +1,5 @@
 //should I console log errors or throw errors in the client side??
-const API_URL=import.meta.env.MODE==='production'? 'https://your-production-backend.com'
+const API_URL=import.meta.env.MODE==='production'? 'https://codesockets-core.onrender.com'
 : 'http://localhost:3000';
 console.log(API_URL)
 //set toasts for all services here!!

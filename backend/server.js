@@ -10,7 +10,7 @@ const PORT = process.env.NODE_ENV === 'production'? process.env.PORT    //ain't 
 if(process.env.NODE_ENV==='production')    //something's wrong here
 {
   app.use(cors({
-    origin:['https://your-frontend-domain.com'],
+    origin:['https://code-sockets-matrix.onrender.com'],
     credentials: true
   })) 
 }
