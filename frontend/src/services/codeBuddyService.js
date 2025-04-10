@@ -1,10 +1,12 @@
 //should I console log errors or throw errors in the client side??
-
+const API_URL=import.meta.env.MODE==='production'? 'https://codesockets-core.onrender.com'
+: 'http://localhost:3000';
+console.log(API_URL)
 //set toasts for all services here!!
 const getRequests=async()=>
 {
     try{
-        const response=await fetch(`http://localhost:3000/codebuddy/request`)
+        const response=await fetch(`${API_URL}/codebuddy/request`)
         if(!response.ok){
             throw new Error('Error fetching requests')
         }
@@ -20,7 +22,7 @@ const getRequest=async(id)=>
 {
     //how would I get the id of the clicked post??
     try{
-        const response=await fetch(`http://localhost:3000/codebuddy/request/:${id}`)
+        const response=await fetch(`${API_URL}/codebuddy/request/:${id}`)
         if(!response.ok){
             throw new Error('Error fetching the request')
         }
@@ -41,7 +43,7 @@ const postRequest=async(requestData)=>
         body:JSON.stringify(requestData)
       }
       try{
-          const response=await fetch("http://localhost:3000/codebuddy/request",options)   
+          const response=await fetch(`${API_URL}/codebuddy/request`,options)   
           if(!response.ok){
             throw new Error("There was an error during request post")
             }
@@ -59,7 +61,7 @@ const deleteRequest=async(id)=>
     }
     //how would I get the id of the clicked post??
     try{
-        const response=await fetch(`http://localhost:3000/codebuddy/request/:${id}`,options)
+        const response=await fetch(`${API_URL}/codebuddy/request/:${id}`,options)
         if(!response.ok){
             throw new Error('Error deleting request')
         }
@@ -83,7 +85,7 @@ const updateRequest=async(id,modifiedData)=>
         body:JSON.stringify(modifiedData)
     }
     try{
-        const response=await fetch(`http://localhost:3000/codebuddy/request/:${id}`,options)
+        const response=await fetch(`${API_URL}/codebuddy/request/:${id}`,options)
         if(!response.ok){
             throw new Error('Error updating request')
         }

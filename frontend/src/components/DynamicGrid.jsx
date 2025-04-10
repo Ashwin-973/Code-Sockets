@@ -3,7 +3,7 @@ import {useModal} from '../hooks/useModal'
 import CodeEditor from './CodeEditor';
 import {Trash2} from 'lucide-react'
 import {Pencil} from 'lucide-react'
-import { useRequestContext } from '@/context/requestContext';
+import { useRequestContext } from '../context/requestContext';
 // The dynamic grid that fills upon posting
 function DynamicGrid({ items }) {
   const {isOpen,openModal,closeModal}=useModal()

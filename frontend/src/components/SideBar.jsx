@@ -1,5 +1,5 @@
 import {useState} from "react"
-import {Sidebar,SidebarBody,SidebarLink,SidebarProvider} from "@/components/ui/sidebar"
+import {Sidebar,SidebarBody,SidebarLink,SidebarProvider} from "./ui/sidebar"
 import {
     IconArrowLeft,
     IconBrandTabler,
@@ -9,7 +9,7 @@ import {
 import { Link, Route, Routes } from "react-router-dom";
 import { motion } from "motion/react";
 // import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 
 const links = [
     {

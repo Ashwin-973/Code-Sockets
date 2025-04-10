@@ -2,7 +2,9 @@ import dotenv from "dotenv"
 import path from 'path'
 import { __dirname } from "../firebase.js";
 import { neon } from "@neondatabase/serverless";
-dotenv.config({path:path.join(__dirname,'.env'),debug:true});
+
+dotenv.config({path:"C:\\Users\\Ashwi\\Documents\\Web Development\\WebDEV\\Sample\\Code-sockets-practice\\anonymez_practice\\.env"});
+
 const {PGHOST,PGUSER,PGPASSWORD,PGDATABASE}=process.env
 const DATABASE_URL=`postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?sslmode=require`
 

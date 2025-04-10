@@ -1,19 +1,29 @@
-// context/ProductContext.jsx
-import { createContext, useState, useContext } from 'react';
+import { useModal } from '../hooks/useModal'
+import { createContext, useState, useContext,useEffect } from 'react';
 import {getRequests,getRequest,postRequest,deleteRequest,updateRequest} from '../services/codeBuddyService'
 
 const RequestContext = createContext();
 
-export const RequestProvider = ({ children }) => {   //does this provider function have some special ability?
+export const RequestProvider = ({ children }) => { 
+   const {isOpen,openModal,closeModal}=useModal()  //does this provider function have some special ability?
   const [requests, setRequests] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null); //holding all the availabe products
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+
    // Add a function to select a request
    const selectRequest = (request) => {
     setSelectedRequest(request);
   };
+  //avoids request state duplication while adding new requests
+  useEffect(()=>
+  {
+    if(!isOpen){
+      setSelectedRequest(null);
+    }
+  },[isOpen])
+
   const addRequest = async (requestData) => {   //when does this run?
     setIsLoading(true);
     setError(null);
