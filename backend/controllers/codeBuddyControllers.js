@@ -65,6 +65,7 @@ const createRequest=async(req,res)=>
 const dropRequest=async(req,res)=>
 {
     const {id}=req.params
+    console.log(id)
     try{
         await sql`DELETE FROM code_requests WHERE id=${id};`
         return res.status(200).json({

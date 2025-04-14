@@ -2,7 +2,9 @@
 const API_URL=import.meta.env.MODE==='production'? 'https://codesockets-core.onrender.com'
 : 'http://localhost:3000';
 console.log(API_URL)
+//colons are used in route definitions only
 //set toasts for all services here!!
+/*IN WHIHC FILE SHOULD I LOG ERROR MESSAGES FOR THE CLIENT SIDE , ERRORS IN MULTIPLE FILES FEEL REDUNDANT */
 const getRequests=async()=>
 {
     try{
@@ -22,7 +24,7 @@ const getRequest=async(id)=>
 {
     //how would I get the id of the clicked post??
     try{
-        const response=await fetch(`${API_URL}/codebuddy/request/:${id}`)
+        const response=await fetch(`${API_URL}/codebuddy/request/${id}`)
         if(!response.ok){
             throw new Error('Error fetching the request')
         }
@@ -61,7 +63,7 @@ const deleteRequest=async(id)=>
     }
     //how would I get the id of the clicked post??
     try{
-        const response=await fetch(`${API_URL}/codebuddy/request/:${id}`,options)
+        const response=await fetch(`${API_URL}/codebuddy/request/${id}`,options)
         if(!response.ok){
             throw new Error('Error deleting request')
         }
@@ -85,7 +87,7 @@ const updateRequest=async(id,modifiedData)=>
         body:JSON.stringify(modifiedData)
     }
     try{
-        const response=await fetch(`${API_URL}/codebuddy/request/:${id}`,options)
+        const response=await fetch(`${API_URL}/codebuddy/request/${id}`,options)
         if(!response.ok){
             throw new Error('Error updating request')
         }
