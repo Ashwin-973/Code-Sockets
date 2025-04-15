@@ -116,5 +116,24 @@ const modifyRequest=async(req,res)=>
 
 }
 
-
-export {fetchRequest,fetchRequests,createRequest,dropRequest,modifyRequest}
+const fetchSolutions=async(req,res)=>
+    {
+        const {id}=req.params //id of the code_request
+        try{
+            const solution=await sql`SELECT * FROM code_solutions WHERE id=${id};`
+            return res.status(200).json({
+                message:'Solutions Fetched',
+                data:solution
+            })
+        }
+        catch(err)
+        {
+            console.log(err.stack || err)
+            return res.status(500).json({
+                message:'Internal Server Error',
+                data:null
+            })
+        }
+    
+    }
+export {fetchRequest,fetchRequests,createRequest,dropRequest,modifyRequest,fetchSolutions}

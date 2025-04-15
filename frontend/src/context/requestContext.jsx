@@ -1,29 +1,34 @@
 import { useModal } from '../context/modelContext'
 import { createContext, useState, useContext,useEffect } from 'react';
-import {getRequests,getRequest,postRequest,deleteRequest,updateRequest} from '../services/codeBuddyService'
+import {getRequests,getRequest,postRequest,deleteRequest,updateRequest} from '../services/codeRequestService'
+import { getSolutions } from '../services/codeSolutionService'; //maybe move this to SolutionContext
 
-const RequestContext = createContext();
+const RequestContext = createContext(undefined);
 
 export const RequestProvider = ({ children }) => { 
-   const {isOpen}=useModal()  //does this provider function have some special ability?
+   const {open,openModal,closeModal}=useModal()  //does this provider function have some special ability?
   const [requests, setRequests] = useState([]);
-  const [selectedRequest, setSelectedRequest] = useState(null); //holding all the availabe products
+  const [selectedRequest, setSelectedRequest] = useState(null); //holding all the availabe requests
+  const [solutions, setSolutions] = useState([]);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
    // Add a function to select a request
-   const selectRequest = (request) => {
+   const selectRequest = (request,modalType = 'editor') => {   //again why the hardcoded type?
     setSelectedRequest(request);
+    openModal(modalType);
   };
   //avoids request state duplication while adding new requests
   useEffect(()=>
   {
-    console.log("Entered useEffect")
-    if(!isOpen){
-      console.log("A req got closed via useEffect")
+    // console.log("Entered useEffect")
+    if(!open){
+      // console.log("A req got closed via useEffect")
       setSelectedRequest(null);
     }
-  },[isOpen])
+  },[open])
 
   const addRequest = async (requestData) => {   //when does this run?
     setIsLoading(true);
@@ -43,14 +48,33 @@ export const RequestProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-  const displayRequests = async () => { 
-    console.log("Entered display requests")  
+
+const displayRequest=async(requestId)=>
+{
+  setIsLoading(true);
+  setError(null);
+  try{
+    const requestData= await getRequest(requestId)   //maybe add this to selected request
+    return requestData
+  }
+  catch(err){
+    setError(err.message)
+    throw err
+  }
+  finally{
+    setIsLoading(false)
+  }
+
+
+}
+
+const displayRequests = async () => { 
     setIsLoading(true);
     setError(null);
     //have a utility function that sends only the content:value pair of the requestData / use .map to do so..using !==
     try {
         const existingRequests=await getRequests()
-      setRequests(existingRequests);   //updating the total avail products
+        setRequests(existingRequests);   //updating the total avail products
       return existingRequests;
     } catch (err) {
       setError(err.message);
@@ -59,7 +83,7 @@ export const RequestProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-  const removeRequest=async(requestId)=>
+const removeRequest=async(requestId)=>
   {
     setIsLoading(true);
     setError(null);
@@ -80,8 +104,61 @@ export const RequestProvider = ({ children }) => {
     }
   }
 
+const fetchSolutions = async (requestId) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const solutionsData = await getSolutions(requestId);
+      setSolutions(solutionsData || []);
+      return solutionsData;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const selectRequestWithSolutions = async (request, modalType = 'carousel') => {
+    setSelectedRequest(request);
+    setIsEditMode(false);
+    setCurrentSlideIndex(0); // Reset to middle (will be adjusted after solutions load)
+    
+    if (modalType === 'carousel') {
+      try {
+        await fetchSolutions(request.id);
+        // Set middle index after solutions load
+        setCurrentSlideIndex(Math.floor(solutions.length / 2));
+      } catch (error) {
+        console.error("Failed to fetch solutions:", error);
+      }
+    }
+    
+    openModal(modalType);
+  };
+const toggleEditMode = () => {
+    setIsEditMode(!isEditMode);
+  }
+
   return (
-    <RequestContext.Provider value={{ requests, isLoading, error, addRequest,displayRequests,selectedRequest,removeRequest,selectRequest }}>  {/*can't understand*/}
+    <RequestContext.Provider value={{ 
+      requests, 
+      isLoading, 
+      error, 
+      addRequest, 
+      displayRequests, 
+      displayRequest, 
+      selectedRequest, 
+      removeRequest, 
+      selectRequest,
+      selectRequestWithSolutions,
+      solutions,
+      currentSlideIndex,
+      setCurrentSlideIndex,
+      isEditMode,
+      toggleEditMode,
+      fetchSolutions
+    }}>  {/*can't understand*/}
       {children}  {/*removed selectedrequest */}
     </RequestContext.Provider>
   );

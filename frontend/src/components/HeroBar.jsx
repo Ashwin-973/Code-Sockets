@@ -15,7 +15,7 @@ import {RefreshCcw} from 'lucide-react'
 
 // Contains the search bar , the buttons and grid-list toggle
 function HeroBar(){
-    const {isOpen,openModal,closeModal}=useModal()
+    const {isOpen,openModal,closeModal}=useModal()  //how do I change this one?
     const {displayRequests} = useRequestContext()
     const languageRef=useRef()
     async function Refresh(){

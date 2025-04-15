@@ -5,20 +5,25 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalTrigger,
+  // ModalTrigger,
 } from "./ui/animated-modal";
-import { AnimatedTooltipPreview } from "./AnimatedProfile";
+ //should I really keep this in Modal context?
 import { CarouselCode } from "./CarouselCode";
-import { IconUrgent } from "@tabler/icons-react";
-import {UserRoundCheck} from "lucide-react"
-import {CircleCheckBig} from "lucide-react"
 import { motion } from "motion/react";
+import { useModal } from "../context/modelContext";
+import { ModalHeader } from "./ModalHeader";
 
-function AnimatedModalDemo() {
+function AnimatedModalDemo({children,onClose}) {
+  const {setOpen}=useModal()
+   // Handle close action with a fallback , flexibl design
+   const handleClose = () => {
+    if (onClose) onClose();
+    else setOpen(false);
+  };
   return (
     <div className="py-40 flex items-center justify-center">
       <Modal>
-        <ModalTrigger
+        {/*<ModalTrigger
           className="bg-black dark:bg-white dark:text-black text-white flex justify-center group/modal-btn">
           <span
             className="group-hover/modal-btn:translate-x-40 text-center transition duration-500">
@@ -28,33 +33,14 @@ function AnimatedModalDemo() {
             className="-translate-x-40 group-hover/modal-btn:translate-x-0 flex items-center justify-center absolute inset-0 transition duration-500 text-white z-20">
             ✈️
           </div>
-        </ModalTrigger>
+        </ModalTrigger>*/}
         <ModalBody>
           <ModalContent className="flex flex-col items-center">
-            <div className="flex items-center justify-around gap-84">
-                <div className="flex items-center gap-8">
-                    <div>
-                        <AnimatedTooltipPreview/>
-                    </div>
-                    <div>
-                        <button>react</button>
-                    </div>
-                </div>
-                <div className="flex items-center gap-4">
-                    <button>
-                        <UserRoundCheck size={24} color="#00A36C"/>
-                    </button>
-                    <button></button>
-                        <CircleCheckBig size={16}/>
-                    <button>
-                        <IconUrgent size={20} color="#FF4500"/>
-                    </button>
-                </div>
-            </div>
-              <CarouselCode />
+              <ModalHeader/>
+              {children}
           </ModalContent>
           <ModalFooter className="gap-4 -mt-4">
-            <button
+            <button onClick={handleClose}
               className="px-2 py-1 bg-gray-200 text-black dark:bg-black dark:border-black dark:text-white border border-gray-300 rounded-md text-sm w-28">
               Cancel
             </button>

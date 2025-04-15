@@ -1,7 +1,7 @@
 //should I console log errors or throw errors in the client side??
 const API_URL=import.meta.env.MODE==='production'? 'https://codesockets-core.onrender.com'
 : 'http://localhost:3000';
-console.log(API_URL)
+
 //colons are used in route definitions only
 //set toasts for all services here!!
 /*IN WHIHC FILE SHOULD I LOG ERROR MESSAGES FOR THE CLIENT SIDE , ERRORS IN MULTIPLE FILES FEEL REDUNDANT */

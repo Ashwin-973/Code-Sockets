@@ -77,7 +77,7 @@ export const CodeBlock = ({
            // Custom scrollbar styling
           scrollbarWidth: "thin",
           scrollbarColor: "rgb(75 85 99) transparent",
-          "&::-webkit-scrollbar": {
+          /*"&::-webkit-scrollbar": {
             width: "8px",
             height: "8px",
           },
@@ -87,7 +87,7 @@ export const CodeBlock = ({
           "&::-webkit-scrollbar-thumb": {
             background: "rgb(75 85 99)",
             borderRadius: "4px",
-          },
+          },*/
         }}
         wrapLines={true}
         // wrapLongLines={true}

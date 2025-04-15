@@ -50,13 +50,11 @@ const CodeEditor = ({onComplete}) => {
     // Use effect to update editor when selectedRequest changes
     useEffect(() => {
       if (selectedRequest) {
-        console.log(selectedRequest)
         if(selectedRequest.content){
           setValue(selectedRequest.content);
 
         }
         const mappedLanguage = mapLanguage(selectedRequest.language);
-        console.log("Mapped language:", mappedLanguage);
         setLanguage(mappedLanguage);
            // If content is empty but we have a language, set default snippet , wtf is the use of this
     if (!selectedRequest.content && mappedLanguage) {
@@ -93,7 +91,7 @@ const CodeEditor = ({onComplete}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const requestData={
-      user_id:'auth0|colinsullivan', skill_level_required:skill_level[slider[0]], content:value, language:language, urgent_toggle:toggle, problem_description:description, is_open:true, status:'unsolved'
+      user_id:'auth0|forrestgump', skill_level_required:skill_level[slider[0]], content:value, language:language, urgent_toggle:toggle, problem_description:description, is_open:true, status:'unsolved'
     }
     console.log("request data :",requestData)
     try {
@@ -143,7 +141,7 @@ const CodeEditor = ({onComplete}) => {
                   enabled: false,
                 },
               }}
-              height="75vh"
+              height="60vh"
               theme="vs-dark"
               language={language}
               defaultValue={CODE_SNIPPETS[language]}

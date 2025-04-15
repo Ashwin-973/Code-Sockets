@@ -1,6 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 import Modal from './Modal';
+import { ModalContainer } from "./ModalContainer";
+import { AnimatedModalDemo } from "./EnhancedModal";
 import {useModal} from '../context/modelContext'
 import { useRequestContext } from "../context/requestContext";
 import { CodeBlock } from "./ui/code-block";
@@ -17,25 +19,23 @@ const id='auth0|summerfinn'
 const skill_level='moderate'
 
 function DynamicGrid({items}) {
-    const {isOpen,openModal,closeModal}=useModal()
+    const {open,openModal,closeModal}=useModal()
     const { selectRequest,removeRequest } = useRequestContext();
     items=items.filter((item)=>
     {
         return item.user_id===id || item.skill_level_required===skill_level || item.skill_level_required==="free to all"  //id would come from the current authenticated user
     })
-      const handleRequestClick = (item) => {
-        selectRequest(item);
-        openModal();
-      };
+    const handleRequestClick = (item) => {
+      selectRequest(item, 'carousel');
+    };
+    
       const handleUpdate = (item) => {
-        selectRequest(item);
-        openModal();
+        selectRequest(item,'editor');
+        // openModal();
       };
-      const handleHelp=(item)=>
-      {
-        selectRequest(item);
-        openModal();
-      }
+      const handleHelp = (item) => {
+        selectRequest(item, 'carousel');
+      };
       const handleDelete=async(itemId)=>
       {
         try{
@@ -85,8 +85,8 @@ function DynamicGrid({items}) {
                         <Button variant="secondary">{item.language}</Button>
                     </div>
                     <div className="flex justify-center items-center gap-3">
-                        <UserRoundCheck color={item.status==="solved"?"#50ee07":"#ffffff"}/>
-                        <CircleCheckBig color={!item.is_open?"#50ee07":"#ffffff"}/>
+                      <UserRoundCheck color={item.status==="solved"?"#50ee07":"#ffffff"}/>
+                      <CircleCheckBig color={!item.is_open?"#50ee07":"#ffffff"}/>
                     </div>
                     <div className="flex items-center">
                         <IconUrgent color={item.urgent_toggle?"#eb0d0d":"#ffffff"}/>
@@ -118,9 +118,10 @@ function DynamicGrid({items}) {
           </motion.article>
         ))}
       </div>)}
-        <Modal isOpen={isOpen} onClose={closeModal} >
+        {/*<Modal isOpen={isOpen} onClose={closeModal} >
             <CodeEditor onComplete={closeModal} />
-        </Modal>
+        </Modal>*/}
+        <ModalContainer/>
     </section>
   );
 }

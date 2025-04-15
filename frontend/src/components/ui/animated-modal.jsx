@@ -1,37 +1,18 @@
 "use client";;
 import { cn } from "../../lib/utils";
 import { AnimatePresence, motion } from "motion/react";
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import {useEffect,useRef} from 'react'
+import {useModal} from "../../context/modelContext"
 
-const ModalContext = createContext(undefined);
 
-export const ModalProvider = ({
-  children
-}) => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <ModalContext.Provider value={{ open, setOpen }}>
-      {children}
-    </ModalContext.Provider>
-  );
-};
-
-export const useModal = () => {
-  const context = useContext(ModalContext);
-  if (!context) {
-    throw new Error("useModal must be used within a ModalProvider");
-  }
-  return context;
-};
 
 export function Modal({
   children
 }) {
-  return <ModalProvider>{children}</ModalProvider>;
+  return <>{children}</>; //all components now use the global state , instead of two diff contexts
 }
 
-export const ModalTrigger = ({
+/*export const ModalTrigger = ({
   children,
   className
 }) => {
@@ -46,7 +27,7 @@ export const ModalTrigger = ({
       {children}
     </button>
   );
-};
+};*/
 
 export const ModalBody = ({
   children,

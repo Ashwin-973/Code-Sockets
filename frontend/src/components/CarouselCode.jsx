@@ -1,4 +1,4 @@
-import * as React from "react"
+import { useRequestContext } from "../context/requestContext"
 
 import { Card, CardContent } from "./ui/card"
 import {
@@ -114,8 +114,9 @@ export {
 }
 `
 export function CarouselCode() {
+  const {selectedRequest} =useRequestContext()
   return (
-    <Carousel className="max-w-full"> {/*again no constraint here */}
+    <Carousel opts={{loop:true}} className="max-w-full"> {/*again no constraint here */}
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={index}>
@@ -123,7 +124,7 @@ export function CarouselCode() {
               <Card>
                 <CardContent className="p-2"> {/*how did removing flex fixed the issue? */}
                   {/* <span className="text-4xl font-semibold">{index + 1}</span> */}
-                  <CodeBlock language="jsx" filename="suffer.jsx" code={code}/>
+                  <CodeBlock language="jsx" filename="suffer.jsx" code={selectedRequest.content}/>
                 </CardContent>
               </Card>
             </div>

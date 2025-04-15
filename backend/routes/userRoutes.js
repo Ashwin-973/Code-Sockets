@@ -1,12 +1,12 @@
 import express from "express"
-import { createUser } from "../controllers/userController.js"
+import { createUser, getUser } from "../controllers/userController.js"
 // Import Firebase modules
 import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 import { firestore } from '../firebase.js'; // Your existing firebase config
 const router=express.Router()
 
-router.get("/",createUser)
-
+router.get("/",getUser)
+router.post("/",createUser)
 
 router.get("/fs-init",async function addNewDocument() {
     try {
