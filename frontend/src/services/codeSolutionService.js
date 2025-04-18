@@ -4,7 +4,7 @@ const API_URL = import.meta.env.MODE === 'production'
 
 const getSolutions = async (requestId) => {
   try {
-    const response = await fetch(`${API_URL}/codebuddy/solutions/${requestId}`);
+    const response = await fetch(`${API_URL}/codebuddy/solution/${requestId}`);
     if (!response.ok) {
       throw new Error('Error fetching solutions');
     }
@@ -15,7 +15,7 @@ const getSolutions = async (requestId) => {
   }
 };
 
-const submitSolution = async (solutionData) => {
+const submitSolution = async (solutionData) => {   //how do I get the id?
   const options = {
     method: 'POST',
     headers: {

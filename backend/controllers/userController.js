@@ -31,10 +31,8 @@ VALUES (
 const getUser=async(req,res)=>
 {
     const userId=req.query.userId  //used to get query parameters
-    console.log(userId)
     try{
         const userDetails=await sql`SELECT * FROM users WHERE id=${userId};`
-        console.log(userDetails)
         res.status(200).json({
             message:"User Fetched",
             data:userDetails

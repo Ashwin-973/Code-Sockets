@@ -1,7 +1,7 @@
 import { useModal } from '../context/modelContext'
 import { createContext, useState, useContext,useEffect } from 'react';
 import {getRequests,getRequest,postRequest,deleteRequest,updateRequest} from '../services/codeRequestService'
-import { getSolutions } from '../services/codeSolutionService'; //maybe move this to SolutionContext
+import { getSolutions ,submitSolution as apiSubmitSolution} from '../services/codeSolutionService'; //maybe move this to SolutionContext
 
 const RequestContext = createContext(undefined);
 
@@ -23,14 +23,12 @@ export const RequestProvider = ({ children }) => {
   //avoids request state duplication while adding new requests
   useEffect(()=>
   {
-    // console.log("Entered useEffect")
     if(!open){
-      // console.log("A req got closed via useEffect")
       setSelectedRequest(null);
     }
   },[open])
 
-  const addRequest = async (requestData) => {   //when does this run?
+  const addRequest = async (requestData) => {   //all fetch calls must be inside useEffect , {connecting to an external system} . what if it ain't?
     setIsLoading(true);
     setError(null);
     
@@ -90,7 +88,6 @@ const removeRequest=async(requestId)=>
     try{
       const deleteStatus=await deleteRequest(requestId)
       console.log(deleteStatus)
-      displayRequests
       displayRequests()
       return
     }
@@ -140,6 +137,28 @@ const toggleEditMode = () => {
     setIsEditMode(!isEditMode);
   }
 
+/*const displaySolutions=async()=>
+{
+
+}*/
+
+const submitSolution = async (solutionData) => {
+  setIsLoading(true);
+  setError(null);
+  
+  try {
+    await apiSubmitSolution(solutionData);
+    // Refresh solutions after submission
+    await fetchSolutions(solutionData.request_id);
+    return true;
+  } catch (err) {
+    setError(err.message);
+    throw err;
+  } finally {
+    setIsLoading(false);
+  }
+};
+
   return (
     <RequestContext.Provider value={{ 
       requests, 
@@ -157,7 +176,8 @@ const toggleEditMode = () => {
       setCurrentSlideIndex,
       isEditMode,
       toggleEditMode,
-      fetchSolutions
+      fetchSolutions,
+      submitSolution
     }}>  {/*can't understand*/}
       {children}  {/*removed selectedrequest */}
     </RequestContext.Provider>

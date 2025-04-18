@@ -37,19 +37,25 @@ const mapLanguage = (dbLanguage) => {
   // Return the mapped value or default to javascript
   return languageMap[dbLanguage?.toLowerCase()];
 };
-const CodeEditor = ({onComplete}) => {
+const CodeEditor = ({ 
+  onComplete, 
+  initialCode = "", 
+  language: initialLanguage = "javascript", 
+  readOnly = false,
+  isSolutionMode = true  //who sets the solution mode?
+}) => {
   const editorRef = useRef();  //don't allow submit when slider is untouched
-  const descriptionRef=useRef()
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(initialCode || "");
   const [language, setLanguage] = useState("javascript");
   const [toggle,setToggle]=useState(false)
   const [slider,setSlider]=useState([0])
   const [description,setDescription]=useState("")
-  const { addRequest, isLoading ,selectedRequest} = useRequestContext();
-
-    // Use effect to update editor when selectedRequest changes
-    useEffect(() => {
-      if (selectedRequest) {
+  const { addRequest, isLoading ,selectedRequest,submitSolution} = useRequestContext();
+      //are these two effects redundant?
+    // Use effect to update editor when selectedRequest changes              why does the two effects run like 12 times but not infinitely?
+  useEffect(() => {
+      if (selectedRequest && !isSolutionMode) {  //wtf is the use of solution mode?
+        // if(selectedRequest){
         if(selectedRequest.content){
           setValue(selectedRequest.content);
 
@@ -62,6 +68,17 @@ const CodeEditor = ({onComplete}) => {
     }
       }
     }, [selectedRequest]);
+
+     // Use effect to initialize with provided initial values
+  useEffect(() => {
+    if (initialCode) {
+      setValue(initialCode);
+    }
+    if (initialLanguage) {
+      setLanguage(initialLanguage);
+    }
+  }, [initialCode, initialLanguage]);
+
   
   const onMount = (editor) => {
     editorRef.current = editor;
@@ -90,6 +107,26 @@ const CodeEditor = ({onComplete}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Submit as a solution
+    console.log("Help submission ",selectedRequest)
+   if (isSolutionMode && selectedRequest) {
+      const solutionData = {
+        request_id: selectedRequest.id,
+        helper_id: 'auth0|summerfinn', // This should come from auth context through user Context
+        solution: value,
+        explanation: description,
+        solution_accepted: false,
+      };
+      
+      try {
+        await submitSolution(solutionData);
+        onComplete && onComplete();
+        return ///to avoid falling back to create request
+      } catch (error) {
+        console.log('Solution submission failed');
+      }
+
+
     const requestData={
       user_id:'auth0|forrestgump', skill_level_required:skill_level[slider[0]], content:value, language:language, urgent_toggle:toggle, problem_description:description, is_open:true, status:'unsolved'
     }
@@ -103,14 +140,16 @@ const CodeEditor = ({onComplete}) => {
       console.log('Code submission failed');
     }
   };
-
+}
   
   return (
+    <div className="max-w-full flex flex-col">
     <div className="flex justify-center items-center gap-3">
       <form className="grow-7" onSubmit={handleSubmit}>
           <Box w="100%">
+            {!isSolutionMode && !readOnly && ( 
             <div className="mb-4 flex items-center justify-around">
-            <Avatar>
+            <Avatar>                                                     {/*modal header turns into this when it's a code-editor*/}
               <AvatarImage src="https://i.pinimg.com/736x/b3/a7/33/b3a733480dcc957f5359941e60f4ad7c.jpg" alt="Mr.White" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
@@ -135,16 +174,19 @@ const CodeEditor = ({onComplete}) => {
               </Toggle>
               <Slider onValueChange={handleSlider}  value={slider}  min={0} max={4} step={1}/> {/*was this so hacky??*/}
             </div>
-            <Editor
+              )}                                   {/*use handle validation prop */}
+            <Editor                 
               options={{
                 minimap: {
                   enabled: false,
                 },
+                readOnly: readOnly,     
               }}
-              height="60vh"
+              height="30vh"
               theme="vs-dark"
               language={language}
-              defaultValue={CODE_SNIPPETS[language]}
+              defaultValue={initialCode || CODE_SNIPPETS[language]}
+              // defaultValue={CODE_SNIPPETS[language]}
               onMount={onMount}
               value={value}
               onChange={(value) => setValue(value) }
@@ -153,15 +195,26 @@ const CodeEditor = ({onComplete}) => {
          <button
           type="submit"
           className="px-4 py-2 mx-6 bg-blue-600 text-white rounded"
-          disabled={isLoading}
+          disabled={isLoading || readOnly}
         >
-          {/* Push Request */}
-          {isLoading ? 'Saving...' : selectedRequest ? 'Update Request' : 'Add Request'}
+        {/*{isLoading ? 'Saving...' : isSolutionMode ? 'Submit Solution' 
+          : selectedRequest ? 'Update Request' : 'Add Request'} */}
+        {isLoading?'Saving...' : isSolutionMode ? 'Submit Solution':'Add Request'}
         </button>
       </form>
-      <Textarea onValueChange={handleDescription} value={description} className="w-24" label="Description" placeholder="Enter your description" />
+    </div>
+    {(isSolutionMode || !readOnly) && (             
+        <Textarea 
+          onValueChange={handleDescription} 
+          value={description} 
+          className="w-60"    //large width has no effect..
+          label={isSolutionMode ? "Solution Explanation" : "Description"} 
+          placeholder={isSolutionMode ? "Explain your solution..." : "Enter your description"} 
+        />
+      )}
     </div>
   );
 };
+
 
 export default CodeEditor;

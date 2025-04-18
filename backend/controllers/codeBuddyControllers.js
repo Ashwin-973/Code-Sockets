@@ -1,5 +1,5 @@
 import { sql } from "../config/db.js"
-
+//perform input validation , if it's empty . Improve API design
 const fetchRequests=async(_,res)=>
 {
     try{
@@ -118,17 +118,17 @@ const modifyRequest=async(req,res)=>
 
 const fetchSolutions=async(req,res)=>
     {
-        const {id}=req.params //id of the code_request
+        const {request_id}=req.params //id of the code_request
         try{
-            const solution=await sql`SELECT * FROM code_solutions WHERE id=${id};`
+            const solutions=await sql`SELECT * FROM code_solutions WHERE request_id=${request_id};`  //do you really need the entire row or only the necassary data??
             return res.status(200).json({
                 message:'Solutions Fetched',
-                data:solution
+                data:solutions
             })
         }
         catch(err)
         {
-            console.log(err.stack || err)
+            console.log(err.stack || err)  //beware error messages get displayed in postman
             return res.status(500).json({
                 message:'Internal Server Error',
                 data:null
@@ -136,4 +136,35 @@ const fetchSolutions=async(req,res)=>
         }
     
     }
-export {fetchRequest,fetchRequests,createRequest,dropRequest,modifyRequest,fetchSolutions}
+
+const createSolution=async(req,res)=>{
+    try{
+        const { request_id, helper_id, solution, explanation, solution_accepted, version } = req.body;
+        // Get the latest version for this request if version not provided
+        let solutionVersion = version;
+        if (!solutionVersion) {
+            const latestVersion = await sql`
+            SELECT MAX(version) as max_version 
+            FROM code_solutions 
+            WHERE request_id = ${request_id}`;
+            solutionVersion = (latestVersion[0]?.max_version || 0) + 1;
+            console.log("Solution Version : ",solutionVersion)
+        }
+
+        await sql`INSERT INTO code_solutions (request_id,helper_id,version,solution,explanation,solution_accepted) VALUES(${request_id}, ${helper_id}, ${solutionVersion}, ${solution}, ${explanation}, ${solution_accepted})`
+        return res.status(200).json({
+            message:'Solution Created',
+            data:null
+        })
+    }
+    catch(err)
+    {
+        console.log(err.stack || err)
+        res.status(500).json({
+            message:'Internal Server error',
+            data:null
+        })
+
+    }
+}
+export {fetchRequest,fetchRequests,createRequest,dropRequest,modifyRequest,fetchSolutions,createSolution}

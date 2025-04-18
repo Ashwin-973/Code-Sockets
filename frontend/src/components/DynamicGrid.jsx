@@ -20,13 +20,13 @@ const skill_level='moderate'
 
 function DynamicGrid({items}) {
     const {open,openModal,closeModal}=useModal()
-    const { selectRequest,removeRequest } = useRequestContext();
+    const { selectRequest,removeRequest,selectRequestWithSolutions } = useRequestContext();
     items=items.filter((item)=>
     {
         return item.user_id===id || item.skill_level_required===skill_level || item.skill_level_required==="free to all"  //id would come from the current authenticated user
     })
     const handleRequestClick = (item) => {
-      selectRequest(item, 'carousel');
+      selectRequestWithSolutions(item, 'carousel');
     };
     
       const handleUpdate = (item) => {
@@ -34,7 +34,8 @@ function DynamicGrid({items}) {
         // openModal();
       };
       const handleHelp = (item) => {
-        selectRequest(item, 'carousel');
+        // selectRequest(item, 'carousel');
+        selectRequestWithSolutions(item, 'carousel');
       };
       const handleDelete=async(itemId)=>
       {

@@ -112,7 +112,7 @@ function CarouselContent({
       data-slot="carousel-content">   {/*why the margin left and why is it balanced by padding? */}
       <div
         className={cn(
-          "flex",
+          "flex ",
           orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",      
           className
         )}
