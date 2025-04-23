@@ -36,4 +36,24 @@ const submitSolution = async (solutionData) => {   //how do I get the id?
   }
 };
 
-export { getSolutions, submitSolution };
+const confirmSolution= async(requestId,helperId,versionNumber)=>
+{
+  console.log()
+  const options={
+    method:'PUT',
+}
+try{
+    const response=await fetch(`${API_URL}/codebuddy/solution/${requestId}?helper_id=${helperId}&version=${versionNumber}`,options)
+    if(!response.ok){
+        throw new Error('Error confirming Solution')
+    }
+    const parsed=await response.json()
+    return parsed.message
+}
+catch(err)
+{
+    throw new Error(err)
+}
+}
+
+export { getSolutions, submitSolution,confirmSolution };

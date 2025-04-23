@@ -1,5 +1,6 @@
 // modalContext.jsx
 import { createContext, useState, useContext } from 'react';
+import { useRequestContext } from './requestContext';
 
 /*const ModalContext = createContext();
 
@@ -34,19 +35,19 @@ export const ModalProvider = ({
   children
 }) => {
   const [open, setOpen] = useState(false);
-  const [modalType, setModalType] = useState('editor'); // 'editor' or 'carousel'
-  const openModal=(type = 'editor')=>       //wtd the use of type="editor"
-  {
+  const [modalType, setModalType] = useState('editor'); // 'editor' or 'carousel' 
+    //is it good practice to import context inside of context
+   //wtd the use of type="editor"
+   const openModal = (type = 'editor') => {
     setModalType(type);
-    setOpen(true)
+    setOpen(true);
   }
-  const closeModal=()=>
-  {
-    setOpen(false)
+  const closeModal = () => {
+    setOpen(false);
   }
 
   return (
-    <ModalContext.Provider value={{ open, setOpen ,openModal,closeModal,modalType,setModalType }}>
+    <ModalContext.Provider value={{ open, setOpen ,openModal,closeModal,modalType,setModalType, }}>
       {children}
     </ModalContext.Provider>
   );

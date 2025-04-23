@@ -1,6 +1,6 @@
 import express from "express"
 const router=express.Router()
-import {fetchRequest,fetchRequests,createRequest,dropRequest,modifyRequest, fetchSolutions,createSolution} from '../controllers/codeBuddyControllers.js'
+import {fetchRequest,fetchRequests,createRequest,dropRequest,modifyRequest, fetchSolutions,createSolution, acceptSolution} from '../controllers/codeBuddyControllers.js'
 
 
 //All db table creation logic has been removed since they're one time 
@@ -14,6 +14,7 @@ router.delete("/request/:id",dropRequest)
 //solutions API endpoints
 router.get("/solution/:request_id",fetchSolutions)    // "id" is the variable that contains the req.params ; so dereference only like {id}
 router.post("/solution",createSolution)
+router.put("/solution/:request_id",acceptSolution)
 
 export default router
 

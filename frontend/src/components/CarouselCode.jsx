@@ -15,21 +15,26 @@ import { CodeBlock } from "./ui/code-block"
 import CodeEditor from "./CodeEditor";
 import { Button } from "./ui/button";
 import { Textarea} from "@heroui/react";
-
+//set solution mode to false when user wants to update
 export function CarouselCode() {
   const {
       selectedRequest,
       solutions, 
+      pullSolution,
       currentSlideIndex, 
       setCurrentSlideIndex,
       isEditMode,
-      toggleEditMode} =useRequestContext()
+      toggleEditMode,
+      isSolutionMode,
+      toggleSolutionMode
+} =useRequestContext()
+const {currentUser}=useUserContext()
   const {closeModal} =useModal()
   const [api, setApi] = useState(null); //acts as a bridge bw embla's internal state and react's compo state. Let's the component know...which slide the user is currently on
   const [explanation, setExplanation] = useState("");
   const [allSlides, setAllSlides] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(null);
-  const [initialized, setInitialized] = useState(false);
+
 
   /*useEffect(() => {
     if (open && api) {
@@ -88,16 +93,23 @@ useEffect(() => {
   };
 }, [api, allSlides,setCurrentSlideIndex]);
 
-console.log(allSlides)
+//changing the solution mode forever
+useEffect(()=>
+    {
+      (selectedRequest&&  selectedRequest.user_id===currentUser.id)?toggleSolutionMode(false):toggleSolutionMode(true)
 
-
-  const handleHelp = () => {
-    toggleEditMode();
+  },[selectedRequest])
+  const handlePullSolution = async (slide) => {
+    console.log("The helper's Slide : ",slide)
+    console.log("The OP's Reqeuest : ",selectedRequest)
+    try{
+      await pullSolution(selectedRequest,slide)
+      closeModal()
+    }
+    catch(err){
+      console.log("Solution Pull Failed")
+    }
   };
-  const handleSubmitSolution = async () => {
-    // Implementation for submitting solution
-  };
-
 
   if (allSlides.length === 0) {
     return <div className="p-4">Loading...</div>;
@@ -123,10 +135,10 @@ console.log(allSlides)
                         >
                           <CodeEditor 
                             initialCode={slide.content} 
-                            language={slide.language}
-                            // onComplete={handleSubmitSolution}
+                            initialLanguage={slide.language}
                             onComplete={closeModal}
                             readOnly={false}
+                            isSolutionMode={isSolutionMode}
                           />
                         </motion.div>
                       </AnimatePresence>
@@ -150,7 +162,9 @@ console.log(allSlides)
                 </CardContent>
                 {currentSlideIndex === index && slide.isOriginal && !isEditMode && (
                     <div className="p-4 flex justify-end">
-                      <Button onClick={handleHelp}>Help Solve</Button>
+                      {selectedRequest.user_id === currentUser.id?(
+                        <Button onClick={toggleEditMode}>Make Changes</Button>
+                      ):(<Button onClick={toggleEditMode}>Help Solve</Button>)}
                     </div>
                   )}
                   
@@ -159,7 +173,7 @@ console.log(allSlides)
                       <Button variant="outline" onClick={toggleEditMode}>
                         View Original
                       </Button>
-                      <Button onClick={handleSubmitSolution}>Submit Solution</Button>
+                      <Button >Submit Solution</Button>
                     </div>
                   )}
                   {currentSlideIndex === index && !slide.isOriginal && (
@@ -169,6 +183,11 @@ console.log(allSlides)
                       </p>
                     </div>
                   )}
+                  {!isSolutionMode?(
+                    <div className="m-3 flex justify-end">
+                    <Button onClick={()=>handlePullSolution(slide)} disabled={!selectedRequest.is_open}>Pull Solution</Button>
+                    </div>
+                  ):""}
               </Card>
             </div>
           </CarouselItem>

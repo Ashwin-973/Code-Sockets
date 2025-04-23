@@ -2,9 +2,8 @@
 import { motion } from "framer-motion";
 import Modal from './Modal';
 import { ModalContainer } from "./ModalContainer";
-import { AnimatedModalDemo } from "./EnhancedModal";
-import {useModal} from '../context/modelContext'
 import { useRequestContext } from "../context/requestContext";
+import { useUserContext } from "../context/userContext";
 import { CodeBlock } from "./ui/code-block";
 import CodeEditor from "./CodeEditor"
 import { Avatar,AvatarImage,AvatarFallback } from "./ui/avatar"; 
@@ -15,27 +14,32 @@ import {UserRoundCheck} from "lucide-react"
 import {Trash2} from 'lucide-react'
 import {Pencil} from 'lucide-react'
 
-const id='auth0|summerfinn'
-const skill_level='moderate'
+// const id='auth0|summerfinn'
+// const skill_level='moderate'
 
 function DynamicGrid({items}) {
-    const {open,openModal,closeModal}=useModal()
-    const { selectRequest,removeRequest,selectRequestWithSolutions } = useRequestContext();
-    items=items.filter((item)=>
-    {
-        return item.user_id===id || item.skill_level_required===skill_level || item.skill_level_required==="free to all"  //id would come from the current authenticated user
-    })
+    const { selectRequest,removeRequest,selectRequestWithSolutions,toggleSolutionMode } = useRequestContext();
+    const { currentUser } = useUserContext();
+    items = items.filter((item) => {        //why does this fetch only two requests
+      return (
+        (currentUser && item.user_id === currentUser.id) || 
+        (currentUser && item.skill_level_required === currentUser.skill_level) || 
+        item.skill_level_required === "free to all"
+      );
+    });
     const handleRequestClick = (item) => {
-      selectRequestWithSolutions(item, 'carousel');
+      selectRequestWithSolutions(item, 'carousel');         //I modified something here
+      
     };
     
       const handleUpdate = (item) => {
         selectRequest(item,'editor');
-        // openModal();
+        // toggleSolutionMode(false)
+        
       };
       const handleHelp = (item) => {
         // selectRequest(item, 'carousel');
-        selectRequestWithSolutions(item, 'carousel');
+        selectRequestWithSolutions(item, 'carousel');   
       };
       const handleDelete=async(itemId)=>
       {
@@ -101,7 +105,7 @@ function DynamicGrid({items}) {
                 >
                     <CodeBlock language="jsx" filename="Samples.jsx" code={item.content}  className="w-[1200px] h-[600px]  object-cover transition-transform duration-500 ease-in-out rounded-xl"/>
                 </motion.div>
-                { item.user_id===id?(
+                {currentUser && item.user_id === currentUser.id ? (
                     <div className="bg-gray-200 border border-gray-300 relative  z-50 p-2 rounded-lg flex justify-around items-center"> {/*BOTTOM BAR GET'S HIDDEN WHEN CODEBLOCK HAS OVERFLOW IN Y-AXIS*/}
                     <Pencil className="cursor-pointer" onClick={()=>
                       handleUpdate(item)}/>   {/* HOW TO CREATE HOVER EFFECTS ON THESE ICONS , MAYBE WRAP INSIDE OF A BUTTON*/}

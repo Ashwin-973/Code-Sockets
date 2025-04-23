@@ -1,12 +1,14 @@
 import { useRef, useState,useEffect } from "react";
 import { useRequestContext } from "../context/requestContext";
 import { skill_level } from "../constants/skill";
+import { skillMode } from "../constants/skill";
 import { Box, HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import { CODE_SNIPPETS } from "../constants/editor"
-import { IconUrgent } from "@tabler/icons-react";  //urgent toggle
+import { IconUrgent } from "@tabler/icons-react";  //urgent toggle , maybe change this as it's not customizable
 import { Toggle } from "./ui/toggle";
-import { Textarea } from "@heroui/react"   //problem desc
+// import { Textarea } from "@heroui/react"   //problem desc
+import { TextArea } from "./TextArea";
 import {Slider} from "./ui/slider" //swap this with eldora's slider later, it provides built-in step
 import {
   Select,
@@ -18,6 +20,7 @@ import {
   SelectValue,
 } from "./ui/select"
 import { Avatar,AvatarImage,AvatarFallback } from "./ui/avatar"; //swap this with hero's avatar later as it offers group avatars && Hold this for now
+import { useUserContext } from "../context/userContext";
 
 const mapLanguage = (dbLanguage) => {
   // Create a mapping of possible DB values to your select values
@@ -37,27 +40,37 @@ const mapLanguage = (dbLanguage) => {
   // Return the mapped value or default to javascript
   return languageMap[dbLanguage?.toLowerCase()];
 };
+
+//if the current request details are got from selectedRequest then wts the use of getRequest endpoint?
 const CodeEditor = ({ 
   onComplete, 
   initialCode = "", 
-  language: initialLanguage = "javascript", 
-  readOnly = false,
-  isSolutionMode = true  //who sets the solution mode?
+  // language: initialLanguage = "javascript", 
+  initialLanguage,
+  readOnly = false, //convert this to isEditMode
+  isSolutionMode = false  //why can't I just get it from useRequestContext
 }) => {
   const editorRef = useRef();  //don't allow submit when slider is untouched
   const [value, setValue] = useState(initialCode || "");
-  const [language, setLanguage] = useState("javascript");
+  const [language, setLanguage] = useState("javascript");  //change it to origin ui
   const [toggle,setToggle]=useState(false)
-  const [slider,setSlider]=useState([0])
+  const [slider,setSlider]=useState([0]) //why should I specify an array here?  - change slider to eldora-ui
   const [description,setDescription]=useState("")
-  const { addRequest, isLoading ,selectedRequest,submitSolution} = useRequestContext();
+  const { addRequest, isLoading ,selectedRequest,isEditMode,submitSolution,refurbishRequest,removeRequest} = useRequestContext();
+  const {currentUser}=useUserContext()
       //are these two effects redundant?
     // Use effect to update editor when selectedRequest changes              why does the two effects run like 12 times but not infinitely?
+  console.log(selectedRequest)
   useEffect(() => {
       if (selectedRequest && !isSolutionMode) {  //wtf is the use of solution mode?
         // if(selectedRequest){
         if(selectedRequest.content){
           setValue(selectedRequest.content);
+          if(isEditMode){
+            setToggle(selectedRequest.urgent_toggle)
+            setSlider([skillMode[selectedRequest.skill_level_required]])  //cant' I do this better?
+            setDescription(selectedRequest.problem_description)
+          }
 
         }
         const mappedLanguage = mapLanguage(selectedRequest.language);
@@ -69,8 +82,8 @@ const CodeEditor = ({
       }
     }, [selectedRequest]);
 
-     // Use effect to initialize with provided initial values
-  useEffect(() => {
+     // Use effect to initialize with provided initial values , what does this actually do?
+    useEffect(() => {
     if (initialCode) {
       setValue(initialCode);
     }
@@ -105,10 +118,48 @@ const CodeEditor = ({
     setDescription(desc)
   }
 
+
+const handleUpdate=async()=>
+{
+  if(!isSolutionMode && selectedRequest){                 //why should I have the selectedRequest
+    const updatedData = {
+      user_id: selectedRequest.user_id, // From user context   , should I use selectedRequest or currentUser , which is good practice
+      skill_level_required: skill_level[slider[0]],
+      content: value,
+      language: language,
+      urgent_toggle: toggle,
+      problem_description: description,
+      is_open: selectedRequest.is_open,
+      status: selectedRequest.status
+    };
+    
+    try {
+      await refurbishRequest(selectedRequest.id, updatedData);
+      onComplete && onComplete();
+    } catch (error) {
+      console.log('Request update failed');
+    }
+  }
+
+
+}
+
+
+const handleDelete=async()=>{
+  try{
+    console.log(selectedRequest.id)
+    await removeRequest(selectedRequest.id)
+    onComplete && onComplete();
+  }
+  catch(err)
+  {
+    console.log("Delete functionality failed")
+  }
+}
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Submit as a solution
-    console.log("Help submission ",selectedRequest)
+    console.log("Help submission ",isSolutionMode)          //change unsolved to solved in code-requests
    if (isSolutionMode && selectedRequest) {
       const solutionData = {
         request_id: selectedRequest.id,
@@ -120,15 +171,16 @@ const CodeEditor = ({
       
       try {
         await submitSolution(solutionData);
-        onComplete && onComplete();
+        onComplete && onComplete(); 
+        // toggleSolutionMode(false)
         return ///to avoid falling back to create request
       } catch (error) {
         console.log('Solution submission failed');
       }
-
+    }
 
     const requestData={
-      user_id:'auth0|forrestgump', skill_level_required:skill_level[slider[0]], content:value, language:language, urgent_toggle:toggle, problem_description:description, is_open:true, status:'unsolved'
+      user_id:currentUser.id, skill_level_required:skill_level[slider[0]], content:value, language:language, urgent_toggle:toggle, problem_description:description, is_open:true, status:'unsolved'
     }
     console.log("request data :",requestData)
     try {
@@ -139,40 +191,44 @@ const CodeEditor = ({
       // Error is already handled in context
       console.log('Code submission failed');
     }
-  };
+
 }
   
   return (
-    <div className="max-w-full flex flex-col">
-    <div className="flex justify-center items-center gap-3">
+    <div className="min-w-full min-h-full flex flex-col">    {/*grow-shrink with size of container */}
+    <div className="flex justify-center items-center  gap-3">
       <form className="grow-7" onSubmit={handleSubmit}>
           <Box w="100%">
             {!isSolutionMode && !readOnly && ( 
             <div className="mb-4 flex items-center justify-around">
-            <Avatar>                                                     {/*modal header turns into this when it's a code-editor*/}
-              <AvatarImage src="https://i.pinimg.com/736x/b3/a7/33/b3a733480dcc957f5359941e60f4ad7c.jpg" alt="Mr.White" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-              <Select onValueChange={handleSelect} value={language}> {/*shadcn handles uncontrolled state mgmt to reflect the UI, without useState */}
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Language" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Pick a language</SelectLabel>
-                      <SelectItem value="javascript">javascript</SelectItem>
-                      <SelectItem value="python">python</SelectItem>
-                      <SelectItem value="typescript">typescript</SelectItem>
-                      <SelectItem value="java">java</SelectItem>
-                      <SelectItem value="csharp">csharp</SelectItem>
-                      <SelectItem value="php">php</SelectItem>
-                  </SelectGroup>
-              </SelectContent>
-              </Select>
-              <Toggle onClick={handleToggle}>
-                <IconUrgent/>
-              </Toggle>
-              <Slider onValueChange={handleSlider}  value={slider}  min={0} max={4} step={1}/> {/*was this so hacky??*/}
+              <div className="flex items-center gap-4">
+                <Avatar>                                                     {/*modal header turns into this when it's a code-editor*/}
+                  <AvatarImage src="https://i.pinimg.com/736x/b3/a7/33/b3a733480dcc957f5359941e60f4ad7c.jpg" alt="Mr.White" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                  <Select onValueChange={handleSelect} value={language}> {/*shadcn handles uncontrolled state mgmt to reflect the UI, without useState , have the slider in a dialog box*/}
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder="Language" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Pick a language</SelectLabel>
+                          <SelectItem value="javascript">javascript</SelectItem>
+                          <SelectItem value="python">python</SelectItem>
+                          <SelectItem value="typescript">typescript</SelectItem>
+                          <SelectItem value="java">java</SelectItem>
+                          <SelectItem value="csharp">csharp</SelectItem>
+                          <SelectItem value="php">php</SelectItem>
+                      </SelectGroup>
+                  </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center gap-4">
+                  <Toggle onClick={handleToggle}>
+                    <IconUrgent size={64}/>  {/*why won't size work? */}
+                  </Toggle>
+                  <Slider onValueChange={handleSlider}  value={slider}  min={0} max={4} step={1}/> {/*was this so hacky??*/}
+                </div>
             </div>
               )}                                   {/*use handle validation prop */}
             <Editor                 
@@ -182,7 +238,7 @@ const CodeEditor = ({
                 },
                 readOnly: readOnly,     
               }}
-              height="30vh"
+              height="50vh"
               theme="vs-dark"
               language={language}
               defaultValue={initialCode || CODE_SNIPPETS[language]}
@@ -192,24 +248,44 @@ const CodeEditor = ({
               onChange={(value) => setValue(value) }
             />
           </Box>
-         <button
-          type="submit"
-          className="px-4 py-2 mx-6 bg-blue-600 text-white rounded"
-          disabled={isLoading || readOnly}
-        >
-        {/*{isLoading ? 'Saving...' : isSolutionMode ? 'Submit Solution' 
-          : selectedRequest ? 'Update Request' : 'Add Request'} */}
-        {isLoading?'Saving...' : isSolutionMode ? 'Submit Solution':'Add Request'}
-        </button>
+          {selectedRequest &&  selectedRequest.user_id===currentUser.id?(
+            <div className="m-3 flex justify-around items-center">
+              <button
+              type="button"
+              className="px-4 py-2 mx-6 bg-blue-600 text-white rounded"
+              disabled={isLoading}
+              onClick={handleUpdate}
+              >
+                {isLoading?'Saving...':'Update Request'}
+              </button>
+              <button
+              type="button"
+              className="px-4 py-2 mx-6 bg-blue-600 text-white rounded"
+              disabled={isLoading}
+              onClick={handleDelete}
+              >
+                {isLoading?'Deleting...':'Delete Request'}
+              </button>
+            </div>
+          ):(
+          <div className="m-3 flex justify-start items-center">
+            <button
+            type="submit"
+            className="px-4 py-2 mx-6 bg-blue-600 text-white rounded"
+            disabled={isLoading || readOnly}
+            >
+              {isLoading ? 'Saving...' : isSolutionMode ? 'Submit Solution' : 'Add Request'} 
+            </button>
+          </div>
+          )}
       </form>
-    </div>
+    </div> {/*maybe have the description in pop-up too */}
     {(isSolutionMode || !readOnly) && (             
-        <Textarea 
+        <TextArea 
           onValueChange={handleDescription} 
           value={description} 
-          className="w-60"    //large width has no effect..
-          label={isSolutionMode ? "Solution Explanation" : "Description"} 
-          placeholder={isSolutionMode ? "Explain your solution..." : "Enter your description"} 
+          label={isSolutionMode ? "Solution Explanation" : "Problem Description"} 
+          // placeholder={isSolutionMode ? "Explain your solution..." : "Enter your description"} 
         />
       )}
     </div>

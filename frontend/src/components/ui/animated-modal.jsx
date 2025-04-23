@@ -68,7 +68,7 @@ export const ModalBody = ({
           <motion.div
             ref={modalRef}
             className={cn(
-              "min-h-[60%] max-h-[90%] min-w-[50%] md:max-w-[70%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden",
+              "min-h-[90%] max-h-[95%] min-w-[50%] md:max-w-[70%]  bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 justify-between overflow-hidden",
               className
             )}
             initial={{
@@ -107,7 +107,7 @@ export const ModalContent = ({
   className
 }) => {
   return (
-    <div className={cn("flex flex-col px-8 py-4 md:px-10", className)}>
+    <div className={cn("flex flex-col px-8 py-10 md:px-10", className)}>
       {children}
     </div>
  
@@ -178,7 +178,15 @@ export const useOutsideClick = (
   useEffect(() => {
     const listener = (event) => {
       // DO NOTHING if the element being clicked is the target element or their children
-      if (!ref.current || ref.current.contains(event.target)) {
+      const isSelectElement = event.target.closest('[data-radix-select-content]') || 
+      event.target.closest('[role="listbox"]') ||
+      event.target.closest('data-slot') ||
+      event.target.closest('[role="combobox"]') ||
+      event.target.closest('[id^="radix-"]') ||
+      event.target.closest('[data-radix-select-value]')||
+      event.target.closest('[data-radix-select-group]') ||
+      event.target.closest('[data-radix-select-trigger]');
+      if (!ref.current || ref.current.contains(event.target) || isSelectElement) {
         return;
       }
       callback(event);

@@ -1,7 +1,8 @@
 import { useModal } from '../context/modelContext'
 import { createContext, useState, useContext,useEffect } from 'react';
 import {getRequests,getRequest,postRequest,deleteRequest,updateRequest} from '../services/codeRequestService'
-import { getSolutions ,submitSolution as apiSubmitSolution} from '../services/codeSolutionService'; //maybe move this to SolutionContext
+import { getSolutions ,submitSolution as apiSubmitSolution,confirmSolution} from '../services/codeSolutionService'; //maybe move this to SolutionContext
+import { useUserContext } from './userContext';
 
 const RequestContext = createContext(undefined);
 
@@ -12,6 +13,7 @@ export const RequestProvider = ({ children }) => {
   const [solutions, setSolutions] = useState([]);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isSolutionMode, setIsSolutionMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -28,6 +30,23 @@ export const RequestProvider = ({ children }) => {
     }
   },[open])
 
+
+
+
+const toggleEditMode = () => {
+    setIsEditMode(!isEditMode);
+}
+
+const toggleSolutionMode = (value) => {
+  /*if (value !== null) {
+    setIsSolutionMode(value);
+  } else {
+    setIsSolutionMode(!isSolutionMode);
+  }*/
+  setIsSolutionMode(value)
+}
+
+
   const addRequest = async (requestData) => {   //all fetch calls must be inside useEffect , {connecting to an external system} . what if it ain't?
     setIsLoading(true);
     setError(null);
@@ -38,6 +57,7 @@ export const RequestProvider = ({ children }) => {
       // const response = await productService.createProduct(productData);       //wtf is this?
     //if there's an error like 500 setRequests must not happen , as DB doesn't have this data , maybe automate the fetch req again. or maybe show a toast??
       setRequests(prevRequests => [...prevRequests, requestData]);   //updating the total avail products
+      // displayRequests() without this delet won't work without an explicit request
       return requestData;
     } catch (err) {
       setError(err.message);
@@ -101,6 +121,27 @@ const removeRequest=async(requestId)=>
     }
   }
 
+const refurbishRequest=async(requestId,modifiedData)=>
+{
+  setIsLoading(true);
+  setError(null);
+  try{
+    await updateRequest(requestId,modifiedData)
+    displayRequests()  //is this necessary
+    console.log("update status")
+    return 
+  }
+  catch(err)
+  {
+    setError(err.message);
+  }
+  finally {
+    setIsLoading(false);
+  }
+  
+
+}
+
 const fetchSolutions = async (requestId) => {
     setIsLoading(true);
     setError(null);
@@ -133,14 +174,6 @@ const fetchSolutions = async (requestId) => {
     
     openModal(modalType);
   };
-const toggleEditMode = () => {
-    setIsEditMode(!isEditMode);
-  }
-
-/*const displaySolutions=async()=>
-{
-
-}*/
 
 const submitSolution = async (solutionData) => {
   setIsLoading(true);
@@ -159,6 +192,26 @@ const submitSolution = async (solutionData) => {
   }
 };
 
+const pullSolution=async(requestData,solutionData)=>
+{
+  setIsLoading(true);
+  setError(null);
+  try{
+    await updateRequest(requestData.id,{...requestData,is_open:false,status:'solved'})
+    await confirmSolution(requestData.id,solutionData.helper_id,solutionData.version)
+  }
+  catch(err){
+    setError(err.message);
+  }
+  finally{
+    setIsLoading(false)
+  }
+  // update code_req
+  // update code_sol
+  displayRequests()
+}
+
+
   return (
     <RequestContext.Provider value={{ 
       requests, 
@@ -169,6 +222,7 @@ const submitSolution = async (solutionData) => {
       displayRequest, 
       selectedRequest, 
       removeRequest, 
+      refurbishRequest,
       selectRequest,
       selectRequestWithSolutions,
       solutions,
@@ -176,8 +230,11 @@ const submitSolution = async (solutionData) => {
       setCurrentSlideIndex,
       isEditMode,
       toggleEditMode,
+      isSolutionMode,
+      toggleSolutionMode,
       fetchSolutions,
-      submitSolution
+      submitSolution,
+      pullSolution
     }}>  {/*can't understand*/}
       {children}  {/*removed selectedrequest */}
     </RequestContext.Provider>

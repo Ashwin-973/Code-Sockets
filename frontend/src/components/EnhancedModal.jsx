@@ -35,7 +35,7 @@ function AnimatedModalDemo({children,onClose}) {
           </div>
         </ModalTrigger>*/}
         <ModalBody>
-          <ModalContent className="flex flex-col items-center ">
+          <ModalContent className="items-center !justify-between">
               <ModalHeader/>
               {children}
           </ModalContent>

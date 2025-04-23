@@ -88,7 +88,7 @@ const modifyRequest=async(req,res)=>
 {
     const {id}=req.params
     try{
-        const {user_id, skill_level_required, content, language, urgent_toggle, problem_description, is_open, status}=req.body
+        const {user_id, skill_level_required, content, language, urgent_toggle, problem_description, is_open, status}=req.body //put request doesn't require a body
         const modifiedRequest=await sql`UPDATE code_requests
                 SET
                 user_id = ${user_id},
@@ -167,4 +167,26 @@ const createSolution=async(req,res)=>{
 
     }
 }
-export {fetchRequest,fetchRequests,createRequest,dropRequest,modifyRequest,fetchSolutions,createSolution}
+const acceptSolution=async(req,res)=>
+{
+    try{
+        const {request_id}=req.params
+        const {helper_id,version}=req.query
+        console.log(request_id)
+        console.log(helper_id)
+        console.log(version)
+        await sql`UPDATE code_solutions SET solution_accepted=TRUE WHERE request_id=${request_id} AND helper_id=${helper_id} AND version=${version};`
+        res.status(204).json({
+            message:'Solution Accepted',   //it prints no content anyway,remove the response object
+            data:null
+        })
+    }
+    catch(err){
+        console.log(err.stack || err)
+        res.status(500).json({
+            message:'Internal Server Error',
+            data:null
+        })
+    }
+}
+export {fetchRequest,fetchRequests,createRequest,dropRequest,modifyRequest,fetchSolutions,createSolution,acceptSolution}

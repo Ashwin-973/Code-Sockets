@@ -6,6 +6,7 @@ export const UserProvider=({children})=>
 {
     // const [isLoading, setIsLoading] = useState(false);  will this conflict with other providers' state?
     // const [error, setError] = useState(null);
+    const currentUser={id:'auth0|summerfinn',skill_level:'moderate'}  //this would be set after eftching data from database
     const getUserInfo=async(userId)=>
     {
         // setIsLoading(true);
@@ -25,7 +26,7 @@ export const UserProvider=({children})=>
     }
 
     return(
-    <UserContext.Provider value={{getUserInfo}}>
+    <UserContext.Provider value={{getUserInfo,currentUser}}>
         {children}
     </UserContext.Provider>
     )
