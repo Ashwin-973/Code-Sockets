@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { cn } from "../lib/utils";
 // import SiteHeader from "../components/site-header";
-import { NavBar} from "../components/layout/Navbar";
+import { NavBar} from "../components/layout/NavBar";
 import { HeroSection } from "../components/layout/HeroSection";
 import { BenefitsSection } from "../components/layout/BenefitsSection";
 import { ProblemSolutionSection } from "../components/layout/ProblemSolutionSection";
