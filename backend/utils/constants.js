@@ -1,0 +1,1 @@
+//static data (e.g., status enums).

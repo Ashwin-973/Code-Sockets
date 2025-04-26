@@ -1,4 +1,4 @@
-import { sql } from "../config/db.js"
+import { sql } from "../configs/neon.js"
 //perform input validation , if it's empty . Improve API design
 const fetchRequests=async(_,res)=>
 {

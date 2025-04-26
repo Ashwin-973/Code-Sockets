@@ -1,6 +1,5 @@
 // modalContext.jsx
 import { createContext, useState, useContext } from 'react';
-import { useRequestContext } from './requestContext';
 
 /*const ModalContext = createContext();
 
@@ -36,8 +35,9 @@ export const ModalProvider = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState('editor'); // 'editor' or 'carousel' 
+  const [footerButtons, setFooterButtons] = useState([]);
+  const [footerUtils, setFooterUtils] = useState([]);
     //is it good practice to import context inside of context
-   //wtd the use of type="editor"
    const openModal = (type = 'editor') => {
     setModalType(type);
     setOpen(true);
@@ -46,8 +46,38 @@ export const ModalProvider = ({
     setOpen(false);
   }
 
+
+  // Helper function to set buttons with proper structure , actually this breaks the single responsibility of model context in one way or the other
+  const updateFooterButtons = (buttons) => {
+    setFooterButtons(buttons.map(button => ({
+      label: button.label,
+      onClick: button.onClick,
+      variant: button.variant || "default",
+      disabled: button.disabled || false
+    })));
+  };
+{/*can I do better, state for just one button? */}
+  const updateFooterUtils=(buttons)=>  
+  {
+    setFooterUtils(buttons.map(button => ({
+      label: button.label,
+      onClick: button.onClick,
+      variant: button.variant || "default",
+      disabled: button.disabled || false
+    })));
+  }
+
+{/* is it bad practice to pass state update function as prop ?, that's why we use object shorthand notation?*/}
   return (
-    <ModalContext.Provider value={{ open, setOpen ,openModal,closeModal,modalType,setModalType, }}>
+    <ModalContext.Provider value={{
+      open, setOpen,
+      openModal,closeModal,
+      modalType, setModalType,
+      footerButtons,
+      setFooterButtons: updateFooterButtons   ,
+      footerUtils,
+      setFooterUtils : updateFooterUtils
+    }}>
       {children}
     </ModalContext.Provider>
   );

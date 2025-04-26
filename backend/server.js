@@ -2,6 +2,8 @@ import express from "express"
 import cors from "cors"
 import codeBuddy from './routes/codeBuddyRoutes.js'
 import UserCreation from './routes/userRoutes.js'
+
+
 const app=express()
 /*const PORT = process.env.NODE_ENV === 'production'? process.env.PORT    //ain't working...
 : 3000*/
@@ -29,3 +31,5 @@ app.listen(PORT,()=>{
 
 app.use('/codebuddy',codeBuddy)
 app.use('/user',UserCreation)
+
+

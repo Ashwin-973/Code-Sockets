@@ -175,12 +175,12 @@ const fetchSolutions = async (requestId) => {
     openModal(modalType);
   };
 
-const submitSolution = async (solutionData) => {
+const submitSolution = async (selectedRequest,solutionData) => {
   setIsLoading(true);
   setError(null);
   
   try {
-    await apiSubmitSolution(solutionData);
+    await apiSubmitSolution(selectedRequest,solutionData);
     // Refresh solutions after submission
     await fetchSolutions(solutionData.request_id);
     return true;
@@ -198,7 +198,7 @@ const pullSolution=async(requestData,solutionData)=>
   setError(null);
   try{
     await updateRequest(requestData.id,{...requestData,is_open:false,status:'solved'})
-    await confirmSolution(requestData.id,solutionData.helper_id,solutionData.version)
+    await confirmSolution(requestData,solutionData,solutionData.version)
   }
   catch(err){
     setError(err.message);

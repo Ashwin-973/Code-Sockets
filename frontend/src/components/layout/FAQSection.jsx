@@ -1,10 +1,10 @@
 'use client'
 import { useRef, useState } from "react"
 
-const FaqsCard = ({ faqsList, idx }: { faqsList: { q: string, a: string }, idx: number }) => {
-    const answerElRef = useRef<any>(null)
+const FaqsCard = ({ faqsList, idx }) => {
+    const answerElRef = useRef(null)
     const [isOpen, setIsOpen] = useState(false)
-    const [answerHeight, setAnswerHeight] = useState<any>('0px')
+    const [answerHeight, setAnswerHeight] = useState('0px')
 
     const handleOpenAnswer = () => {
         const answerElH = answerElRef.current?.childNodes[0]?.scrollHeight || 0
@@ -47,7 +47,7 @@ const FaqsCard = ({ faqsList, idx }: { faqsList: { q: string, a: string }, idx: 
     )
 }
 
-function Page () {
+function FAQSection () {
     const faqsList = [
         {
             q: "What services does your consultancy offer?",
@@ -96,4 +96,4 @@ function Page () {
         </section>
     )
 }
-export default Page;
+export {FAQSection};
