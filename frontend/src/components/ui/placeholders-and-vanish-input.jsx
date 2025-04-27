@@ -4,8 +4,19 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/utils";
 
+
 export function PlaceholdersAndVanishInput({
-  placeholders,
+  placeholders = [
+    "Tyler Durden?",
+    "Max Cady?",
+    "Henry Hill?",
+    "Anton Chigurh?",
+    "Hannibal Lecter?",
+    "Frank Castle?",
+    "Walter White?",
+    "Neil McCauley?",
+    "Frank Abagnale?",
+  ],
   onChange,
   onSubmit
 }) {
@@ -15,7 +26,7 @@ export function PlaceholdersAndVanishInput({
   const startAnimation = () => {
     intervalRef.current = setInterval(() => {
       setCurrentPlaceholder((prev) => (prev + 1) % placeholders.length);
-    }, 3000);
+    },2500 );
   };
   const handleVisibilityChange = () => {
     if (document.visibilityState !== "visible" && intervalRef.current) {
@@ -199,7 +210,7 @@ export function PlaceholdersAndVanishInput({
         disabled={!value}
         type="submit"
         className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full disabled:bg-gray-100 bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center">
-        <motion.svg
+        {/*<motion.svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -226,7 +237,7 @@ export function PlaceholdersAndVanishInput({
             }} />
           <path d="M13 18l6 -6" />
           <path d="M13 6l6 6" />
-        </motion.svg>
+        </motion.svg>*/}
       </button>
       <div
         className="absolute inset-0 flex items-center rounded-full pointer-events-none">

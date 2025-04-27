@@ -17,6 +17,7 @@ export function NavBar() {
   const { loginWithRedirect } = useAuth0();
   const { logout,isAuthenticated,isLoading,user } = useAuth0();
   console.log(isAuthenticated)
+  console.log(user)
   const navItems = [
     {
       name: "Features",

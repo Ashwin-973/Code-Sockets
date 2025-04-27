@@ -16,7 +16,7 @@ export function StepperInput({header}) {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("submitted");
+    console.log(e.target.value);
   };
   return (
     <div className="h-[20rem] flex flex-col justify-center  items-center px-4">
@@ -24,7 +24,7 @@ export function StepperInput({header}) {
         className="mb-10 sm:mb-20 text-xl text-center sm:text-2xl dark:text-white text-black">
         {header}
       </h5>
-      <PlaceholdersAndVanishInput placeholders={placeholders} onChange={handleChange} onSubmit={onSubmit} />
+      <PlaceholdersAndVanishInput  onChange={handleChange} onSubmit={onSubmit} />
     </div>
   );
 }

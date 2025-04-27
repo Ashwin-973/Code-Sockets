@@ -1,24 +1,31 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Navigate, useLocation } from 'react-router-dom';
-//clean loading state ,easily extensible , reusable
-export const ProtectedRoute = ({ children,requireOnboarding=false }) => {
-  const { isAuthenticated, isLoading } = useAuth0();
+import { useAuthState } from './AuthStateProvider';
+import {Spinner} from "@heroui/react";
+export const ProtectedRoute = ({ children, requireOnboarding = false }) => {
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth0();
+  const { isOnboarded, isLoading: isStateLoading } = useAuthState();
   const location = useLocation();
 
-  if (isLoading) {
-    return <div>Loading...</div>; // or a better loading spinner
+  // Show loading state while checking auth/onboarding
+  if (isAuthLoading || isStateLoading) {
+    return <Spinner />;
   }
-{/*what does replace mean here? */}
+
+  // Not logged in - redirect to home 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;  
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
+  // Needs onboarding but trying to access protected route
+  if (requireOnboarding && !isOnboarded) {
+    return <Navigate to="/onboarding" state={{ from: location }} replace />;
+  }
 
-  /*const hasCompletedOnboarding = user?.['https://yourapp.com/metadata']?.onboarded;
-
-  if (requireOnboarding && !hasCompletedOnboarding && location.pathname !== '/onboarding') {
-    return <Navigate to="/onboarding" replace />;
-  }*/
+  // Already onboarded but trying to access onboarding
+  if (!requireOnboarding && isOnboarded && location.pathname === '/onboarding') {
+    return <Navigate to="/collaborate" replace />;
+  }
 
   return children;
-};
+}
