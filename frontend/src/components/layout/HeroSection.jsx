@@ -7,7 +7,7 @@ export function HeroSection() {
   return (
     // <BackgroundBeamsWithCollision>
     <div
-      className="relative mx-auto my-32 flex max-w-7xl flex-col items-center justify-center">
+      className="relative mx-auto my-32 max-w-full flex flex-col items-center justify-center">
       {/* <Navbar /> */}
       <div
         className="absolute inset-y-0 left-0 h-full w-px bg-neutral-200/80 dark:bg-neutral-800/80">

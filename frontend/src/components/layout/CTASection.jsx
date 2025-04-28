@@ -2,7 +2,6 @@
 //from shapex
 //include features in the cards provided
 
-// import Image from "next/image";
 import { motion } from "framer-motion";
 import { Lock } from "lucide-react";
 import { Button } from "../ui/button";
@@ -13,7 +12,7 @@ const CTASection = () => {
     //   className=" py-12 bg-gradient-to-br from-purple-700 via-indigo-800 to-blue-900 relative overflow-hidden">
     <section className="w-full py-12 bg-gradient-to-br relative overflow-hidden " 
     style={{
-      backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.15) 1px, transparent 0)`,
+      backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.75) 1px, transparent 0)`,
     }}>
       <div className="absolute inset-0 opacity-10">
         {/* <img

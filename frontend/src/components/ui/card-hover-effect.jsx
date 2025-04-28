@@ -12,12 +12,12 @@ export const HoverEffect = ({
 
   return (
     <div
-      className={cn("grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  py-10", className)}>
+      className={cn("grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  pt-10 pb-20", className)}>
       {items.map((item, idx) => (
         <a
           href={item?.link}
           key={item?.link}
-          className="relative group  block p-2 h-full w-full"
+          className="relative group block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}>
           <AnimatePresence>
@@ -28,11 +28,11 @@ export const HoverEffect = ({
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: 1,
-                  transition: { duration: 0.15 },
+                  transition: { duration: 0.3 },
                 }}
                 exit={{
                   opacity: 0,
-                  transition: { duration: 0.15, delay: 0.2 },
+                  transition: { duration: 0.3, delay: 0.2 },
                 }} />
             )}
           </AnimatePresence>

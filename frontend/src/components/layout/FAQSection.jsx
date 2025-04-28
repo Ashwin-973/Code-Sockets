@@ -73,7 +73,7 @@ function FAQSection () {
     
   
     return (
-        <section className="leading-relaxed max-w-screen-xl mt-12 mx-auto px-4 md:px-8">
+        <section className="leading-relaxed max-w-screen-xl my-12 mx-auto px-4 md:px-8">
             <div className="space-y-3 text-center">
                 <h1 className="text-3xl text-gray-800 font-semibold">
                     Frequently Asked Questions
@@ -82,7 +82,7 @@ function FAQSection () {
                     Answered all frequently asked questions, Still confused? feel free to contact us.
                 </p>
             </div>
-            <div className="mt-14 max-w-2xl mx-auto">
+            <div className="mt-14 max-w-5xl mx-auto">
                 {
                     faqsList.map((item, idx) => (
                         <FaqsCard

@@ -14,7 +14,7 @@ const StarTestimonial = ({ testimonials, mode = 'light' }) => {
 
   
   return (
-    <div>
+    <div className='max-w-7xl mx-auto mb-24'>
       <div className='flex flex-col items-center justify-center pt-5'>
         <div className='flex flex-col gap-5 mb-8'>
           <span className='text-center text-4xl'>Read what people are saying</span>

@@ -12,10 +12,12 @@ export const StickyScroll = ({
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     // uncomment line 22 and comment line 23 if you DONT want the overflow container and want to have it change on the entire page scroll
-    // target: ref
-    container: ref,
-    offset: ["start start", "end start"],
+    // container: ref,
+    // offset: ["start start", "end start"],
+    target: ref, //what does target ref mean?
+    offset: ["start end", "end start"],
   });
+  
   const cardLength = content.length;
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -52,7 +54,7 @@ export const StickyScroll = ({
       animate={{
         backgroundColor: backgroundColors[activeCard % backgroundColors.length],
       }}
-      className="relative flex h-[30rem] justify-center space-x-10 overflow-y-auto rounded-md p-10"
+      className="relative flex min-h-[150vh] justify-center space-x-10 rounded-md p-10"
       ref={ref}>
       <div className="div relative flex items-start px-4">
         <div className="max-w-2xl">
@@ -82,7 +84,8 @@ export const StickyScroll = ({
           ))}
           <div className="h-40" />
         </div>
-      </div>
+      </div> 
+      {/*how to move the card to the center */}
       <div
         style={{ background: backgroundGradient }}
         className={cn(
