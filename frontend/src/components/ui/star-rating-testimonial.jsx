@@ -17,8 +17,8 @@ const StarTestimonial = ({ testimonials, mode = 'light' }) => {
     <div className='max-w-7xl mx-auto mb-24'>
       <div className='flex flex-col items-center justify-center pt-5'>
         <div className='flex flex-col gap-5 mb-8'>
-          <span className='text-center text-4xl'>Read what people are saying</span>
-          <span className='text-center text-slate-300'>Dummy feedback from virtual customers <br /> using our component library.</span>
+          <span className='text-center text-4xl text-neutral-900 font-medium'>Read what people are saying</span>
+          <span className='text-center text-neutral-500'>Dummy feedback for Testimonials <br /> with a flavour of famous movies.</span>
         </div>
       </div>
       <div className='relative'>
@@ -35,7 +35,7 @@ const StarTestimonial = ({ testimonials, mode = 'light' }) => {
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 24 24'
                     fill='currentColor'
-                    className={`w-7 h-7 ${mode === 'dark' ? 'text-yellow-300' : 'text-black'}`}
+                    className={`w-7 h-7 ${mode === 'dark' ? 'text-yellow-300' : 'text-neutral-900'}`}
                   >
                     <path
                       fillRule='evenodd'
@@ -61,7 +61,7 @@ const StarTestimonial = ({ testimonials, mode = 'light' }) => {
                 ))}
               </div>
               <div className='mt-5 mb-5'>
-                <span className={`${mode === 'dark' ? 'text-slate-100' : 'text-black'}`}>
+                <span className={`${mode === 'dark' ? 'text-slate-100' : 'text-neutral-700'}`}>
                   {testimonial.text}
                 </span>
               </div>
@@ -75,10 +75,10 @@ const StarTestimonial = ({ testimonials, mode = 'light' }) => {
                   className='rounded-full'
                 />
                 <div className='flex flex-col pl-4'>
-                  <span className={`${mode === 'dark' ? 'text-white' : 'text-black'}`}>
+                  <span className={`${mode === 'dark' ? 'text-white' : 'text-neutral-900'}`}>
                     {testimonial.name}
                   </span>
-                  <span className={`text-sm ${mode === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <span className={`text-sm ${mode === 'dark' ? 'text-slate-400' : 'text-neutral-500'}`}>
                     {testimonial.jobtitle}
                   </span>
                 </div>

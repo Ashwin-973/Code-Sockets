@@ -34,6 +34,8 @@
   --shadow-own:0 4px 6px 0 rgba(67, 46, 134, 0.04);
 }
 
+
+
 @custom-variant dark (&:is(.dark *));
 
 :root {

@@ -32,11 +32,17 @@ export const StickyScroll = ({
     setActiveCard(closestBreakpointIndex);
   });
 
-  const backgroundColors = [
+  /*const backgroundColors = [
     "#0f172a", // slate-900
     "#000000", // black
     "#171717", // neutral-900
-  ];
+  ];*/
+  const backgroundColors = [
+    "#e5e7eb", //gray-200
+    "#cbd5e1", //slate-400
+    "#e2e8f0",//slate-200
+  ]
+
   const linearGradients = [
     "linear-gradient(to bottom right, #06b6d4, #10b981)", // cyan-500 to emerald-500
     "linear-gradient(to bottom right, #ec4899, #6366f1)", // pink-500 to indigo-500
@@ -54,10 +60,10 @@ export const StickyScroll = ({
       animate={{
         backgroundColor: backgroundColors[activeCard % backgroundColors.length],
       }}
-      className="relative flex min-h-[150vh] justify-center space-x-10 rounded-md p-10"
+      className="relative flex min-h-[150vh] justify-center items-center space-x-10 rounded-md p-10"
       ref={ref}>
-      <div className="div relative flex items-start px-4">
-        <div className="max-w-2xl">
+      <div className="div relative flex items-start px-4 max-w-2xl">
+        <div className="min-w-2xl">
           {content.map((item, index) => (
             <div key={item.title + index} className="my-20">
               <motion.h2
@@ -67,7 +73,7 @@ export const StickyScroll = ({
                 animate={{
                   opacity: activeCard === index ? 1 : 0.3,
                 }}
-                className="text-2xl font-bold text-slate-100">
+                className="text-3xl font-bold text-neutral-900">
                 {item.title}
               </motion.h2>
               <motion.p
@@ -77,7 +83,7 @@ export const StickyScroll = ({
                 animate={{
                   opacity: activeCard === index ? 1 : 0.3,
                 }}
-                className="text-kg mt-10 max-w-sm text-slate-300">
+                className="text-kg mt-10 max-w-sm text-neutral-700">
                 {item.description}
               </motion.p>
             </div>
@@ -85,11 +91,10 @@ export const StickyScroll = ({
           <div className="h-40" />
         </div>
       </div> 
-      {/*how to move the card to the center */}
       <div
         style={{ background: backgroundGradient }}
         className={cn(
-          "sticky top-10 hidden h-60 w-80 overflow-hidden rounded-md bg-white lg:block",
+          "sticky top-1/4 hidden h-[500px] w-[500px] overflow-hidden rounded-md bg-white lg:block transition-all duration-500",
           contentClassName
         )}>
         {content[activeCard].content ?? null}

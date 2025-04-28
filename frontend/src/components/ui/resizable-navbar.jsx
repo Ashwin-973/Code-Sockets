@@ -1,4 +1,5 @@
-"use client";;
+"use client";
+import logo from "../../assets/code-sockets-high-resolution-logo.png"
 import { cn } from "../../lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
@@ -33,7 +34,6 @@ export const Navbar = ({
   return (
     <motion.div
       ref={ref}
-      // IMPORTANT: Change this to class of `fixed` if you want the navbar to be fixed
       className={cn("fixed inset-x-0 top-4 z-40 w-full", className)}>
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
@@ -94,13 +94,13 @@ export const NavItems = ({
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+          className="relative px-4 py-2 text-neutral-900  dark:text-neutral-300"
           key={`link-${idx}`}
           href={item.link}>
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800" />
+              className="absolute inset-0 h-full w-full rounded-full bg-amber-400 dark:bg-neutral-800" />
           )}
           <span className="relative z-20">{item.name}</span>
         </a>
@@ -195,11 +195,11 @@ export const NavbarLogo = () => {
       href="#"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black">
       <img
-        src="https://assets.aceternity.com/logo-dark.png"
+        src={logo}
         alt="logo"
-        width={30}
-        height={30} />
-      <span className="font-medium text-black dark:text-white">Startup</span>
+        width={40}
+        height={40} />
+      <span className="font-medium text-neutral-900 dark:text-white">CodeSockets</span>
     </a>
   );
 };
@@ -213,7 +213,7 @@ export const NavbarButton = ({
   ...props
 }) => {
   const baseStyles =
-    "px-4 py-2 rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
+    "px-4 py-2 rounded-md button bg-amber-500 text-white text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center hover:bg-amber-300";
 
   const variantStyles = {
     primary:

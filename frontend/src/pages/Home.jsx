@@ -32,7 +32,7 @@ const AnimatedBackground = () => {
     <motion.div
       className="absolute inset-0 z-0"
       style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.75) 1px, transparent 0)`,
+        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(242, 242, 7, 1) 2px, transparent 0)`,
         backgroundSize: "100px 100px",
       }}
       animate={controls}
@@ -46,7 +46,7 @@ export function Home() {
   return (
     <div id="root-layout"  className={cn("min-h-screen bg-background font-sans antialiased",)}>
     {/* <div className="min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white font-sans relative overflow-hidden"> */}
-    <div className="min-h-screen bg-gradient-to-r from-indigo-600 via-blue-400 to-indigo-300 text-white font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-r from-neutral-200 via-neutral-100 to bg-neutral-50 text-white font-sans relative overflow-hidden">
       <AnimatedBackground />
       <div className="relative z-10">
         {/* Site Header */}

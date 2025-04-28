@@ -23,7 +23,7 @@ export const HoverEffect = ({
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
+                className="absolute inset-0 h-full w-full bg-amber-400 dark:bg-slate-800/[0.8] block  rounded-3xl"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -36,7 +36,7 @@ export const HoverEffect = ({
                 }} />
             )}
           </AnimatePresence>
-          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(0, 229, 255, 0.2)">
+          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(216, 235, 4,0.3)">
           <Card>
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
@@ -55,7 +55,7 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
+        "rounded-2xl max-h-full min-h-[300px] w-full p-4 overflow-hidden bg-gray-200 border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
         className
       )}>
       <div className="relative z-50">
@@ -69,7 +69,7 @@ export const CardTitle = ({
   children
 }) => {
   return (
-    <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-4", className)}>
+    <h4 className={cn("text-neutral-700 font-bold text-center tracking-wide mt-4 ", className)}>
       {children}
     </h4>
   );
@@ -80,7 +80,7 @@ export const CardDescription = ({
 }) => {
   return (
     <p
-      className={cn("mt-8 text-zinc-400 tracking-wide leading-relaxed text-sm", className)}>
+      className={cn("mt-8 text-neutral-500 tracking-wide leading-relaxed text-sm", className)}>
       {children}
     </p>
   );

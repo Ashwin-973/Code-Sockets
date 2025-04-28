@@ -9,39 +9,39 @@ export function BenefitsSection() {
 }
 export const projects = [
   {
-    title: "Stripe",
+    title: "Feel the Rush of Getting Real Help from Friends",
     description:
-      "A technology company that builds economic infrastructure for the internet.",
-    link: "https://stripe.com",
+      "With CodeBuddy Requests, you toss your coding question into our free community, and folks you know jump in with answers. It’s a chill space to swap ideas and get that personal touch AI can’t deliver.",
+    link: "#",
   },
   {
-    title: "Netflix",
+    title: "Banish That Bug Stress with a Silent Sidekick",
     description:
-      "A streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.",
-    link: "https://netflix.com",
+      "Jump into Shadow Debugging—our free feature where a pro coder shadows your screen, dropping hints in real-time. No pressure, just pure help to smash those bugs.",
+    link: "#",
   },
   {
-    title: "Google",
+    title: "Unlock a Treasure Chest of Knowledge Anytime",
     description:
-      "A multinational technology company that specializes in Internet-related services and products.",
-    link: "https://google.com",
+      "The Resource Time Capsule is your free vault of community-shared tips, tutorials, and hacks. It’s a living archive, built by us, for us, to level up together.",
+    link: "",
   },
   {
-    title: "Meta",
+    title: "Code with Confidence, No Judgment Here",
     description:
-      "A technology company that focuses on building products that advance Facebook's mission of bringing the world closer together.",
-    link: "https://meta.com",
+      "Anonymous Mode lets you post and collaborate without showing your face. Flip the switch, pick a fun alias, and dive into the community—no pressure, all support.",
+    link: "#",
   },
   {
-    title: "Amazon",
+    title: "Let Go of Guilt with a Confession Wall",
     description:
-      "A multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
-    link: "https://amazon.com",
+      "The Error Ledger, or Confession Wall, is your free space to share coding blunders. Post your mistakes, get advice, and see you’re not the only one tripping up—pure community vibes",
+    link: "#",
   },
   {
-    title: "Microsoft",
+    title: "Find Your Coding Crew That Gets You",
     description:
-      "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
-    link: "https://microsoft.com",
+      "Interest-Based Matching pairs you with coders at your skill level for CodeBuddy Requests or chats. It’s a free way to match with your perfect coding pals in our community",
+    link: "#",
   },
 ];

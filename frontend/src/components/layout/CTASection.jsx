@@ -28,17 +28,17 @@ const CTASection = () => {
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto text-center">
           <h2
-            className="text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
+            className="text-4xl font-extrabold leading-tight text-neutral-700 sm:text-5xl lg:text-6xl ">
             Unlock the Power of{" "}
-            <span className="text-yellow-400">Shapex UI</span>
+            <span className="text-amber-400">CodeSockets</span>
           </h2>
-          <p className="max-w-xl mx-auto mt-6 text-lg leading-relaxed text-gray-300">
-            Create stunning web applications with ease. Join our community of
-            developers and start building today.
+          <p className="max-w-xl mx-auto mt-6 text-center text-lg leading-relaxed text-neutral-500">
+          Tap into a vibrant community to solve coding challenges together.
+          Join fellow developers and start collaborating today.
           </p>
         </motion.div>
           {/*feature cards would come here */}
-        <div className="mt-12 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {/*<div className="mt-12 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {[
             {
               title: "Customizable Styles",
@@ -65,7 +65,7 @@ const CTASection = () => {
               </div>
             </motion.div>
           ))}
-        </div>
+        </div>*/}
 
         <motion.form
           initial={{ opacity: 0, y: 20 }}
@@ -76,7 +76,7 @@ const CTASection = () => {
           className="max-w-xl mx-auto mt-12">
           <div
             className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <div className="relative w-full sm:w-auto">
+            {/*<div className="relative w-full sm:w-auto">
               <input
                 type="email"
                 name="email"
@@ -84,12 +84,12 @@ const CTASection = () => {
                 placeholder="Enter your email"
                 className="w-full px-6 py-4 text-white bg-white bg-opacity-20 rounded-full placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition duration-300"
                 required />
-            </div>
+            </div>*/}
             <Button
               type="submit"
               size="lg"
-              className="w-full sm:w-auto px-12 py-7 bg-yellow-400 text-purple-900 font-bold rounded-full hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-purple-700 transition duration-300">
-              Get Access
+              className="w-full sm:w-auto px-12 py-7 bg-amber-500 text-white font-bold rounded-full hover:bg-amber-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-purple-700 transition duration-300">
+              Start Coding Together
             </Button>
           </div>
         </motion.form>
@@ -100,7 +100,7 @@ const CTASection = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="flex items-center justify-center mt-8">
           <Lock className="size-4 text-white" />
-          <span className="ml-2 text-sm text-gray-300">
+          <span className="ml-2 text-sm text-neutral-400">
             Your data is secure. We never share your information.
           </span>
         </motion.div>

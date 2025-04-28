@@ -50,24 +50,24 @@ const FaqsCard = ({ faqsList, idx }) => {
 function FAQSection () {
     const faqsList = [
         {
-            q: "What services does your consultancy offer?",
-            a: "We offer a wide range of consultancy services including business strategy, market analysis, financial planning, and operational efficiency."
+            q: "Why should I bother joining when I can just Google stuff?",
+            a: "Sure, Google’s got answers, but here you get real people who get your struggle—free help from a community that vibes with you, not just cold search results"
         },
         {
-            q: "How do I know if I need a consultant?",
-            a: "If you're facing challenges in your business, seeking to improve efficiency, or looking for expert advice to drive growth, a consultant can provide valuable insights and solutions."
+            q: "What if I’m new and suck at coding—will I fit in?",
+            a: "No worries, mate! We’re all learning—newbies and pros alike. Our free platform’s built for everyone, and you’ll grow with folks who’ve been there."
         },
         {
-            q: "What is the process for engaging your consultancy services?",
-            a: "The process typically starts with an initial consultation to understand your needs, followed by a detailed proposal outlining our approach, timeline, and costs."
+            q: "I’m already in a ton of coding groups—why join another?",
+            a: "Fair, but those groups can be chaotic. Code-Sockets is your chill MVP spot—free, focused, and packed with coders who actually care about your growth."
         },
         {
-            q: "Are your consultancy services industry-specific?",
-            a: "Our consultants have experience across various industries, allowing us to provide tailored solutions that are relevant to your specific business sector."
+            q: "What if I don't wanna use my real name?",
+            a: "Totally cool! Use Anonymous Mode, pick a fun alias, and code without pressure—our free community’s all about comfort."
         },
         {
-            q: "How can consultancy services help improve my business performance?",
-            a: "Consultancy services can identify inefficiencies, provide strategic advice, and implement best practices, all of which contribute to improved business performance and growth."
+            q: "Why trust this over big coding platforms",
+            a: "Big platforms are crowded and impersonal. Code-Sockets is your tight-knit crew—free, human, and focused on your growth, not just profit."
         }
     ];
     
@@ -75,11 +75,11 @@ function FAQSection () {
     return (
         <section className="leading-relaxed max-w-screen-xl my-12 mx-auto px-4 md:px-8">
             <div className="space-y-3 text-center">
-                <h1 className="text-3xl text-gray-800 font-semibold">
+                <h1 className="text-3xl text-neutral-900 font-semibold">
                     Frequently Asked Questions
                 </h1>
-                <p className="text-gray-600 max-w-lg mx-auto text-lg">
-                    Answered all frequently asked questions, Still confused? feel free to contact us.
+                <p className="text-neutral-500 max-w-lg mx-auto text-lg">
+                    Answered most of the frequently asked questions, Still confused? feel free to contact me.
                 </p>
             </div>
             <div className="mt-14 max-w-5xl mx-auto">

@@ -16,10 +16,11 @@ const Footer = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}>
               {/* <Logo /> */}
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqtAik0ejZLca3OozKryC1L92v5sAVvhRnlQ&s " className="size-12 rounded-full"/>
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqtAik0ejZLca3OozKryC1L92v5sAVvhRnlQ&s " className="size-20 rounded-full"/>
             </motion.h2>
-            <p className="">Shaping the future of web development</p>
-            <div className="relative">
+            <p className="text-xl text-neutral-900 font-medium mb-4">About Me</p>
+            <p className="text-neutral-700 font-medium">Shaping the future of web development</p>
+            {/*<div className="relative">
               <input
                 type="email"
                 placeholder="Your email"
@@ -28,11 +29,11 @@ const Footer = () => {
                 className="absolute right-1 top-2 rounded-full p-1 transition-colors duration-300">
                 <ArrowUpRight className="size-4 " />
               </button>
-            </div>
+            </div>*/}
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold mb-4">Navigation</h3>
+            <h3 className="text-xl text-neutral-900 font-semibold mb-4">Navigation</h3>
             <ul className="space-y-2">
               {["Home", "About", "Services", "Projects", "Blog", "Contact"].map((item) => (
                 <motion.li
@@ -41,7 +42,7 @@ const Footer = () => {
                   transition={{ type: "spring", stiffness: 300 }}>
                   <a
                     href={`#${item.toLowerCase()}`}
-                    className="text-black dark:text-white transition-colors duration-300">
+                    className="text-neutral-700 dark:text-white transition-colors duration-300">
                     {item}
                   </a>
                 </motion.li>
@@ -50,13 +51,12 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold mb-4">Connect</h3>
+            <h3 className="text-xl text-neutral-900 font-semibold mb-4">Connect</h3>
             <ul className="space-y-2">
               {[
-                { name: "LinkedIn", url: "https://www.linkedin.com" },
-                { name: "Twitter", url: "https://www.twitter.com" },
-                { name: "Instagram", url: "https://www.instagram.com" },
-                { name: "GitHub", url: "https://www.github.com" },
+                { name: "GitHub", url: "https://github.com/Ashwin-973" },
+                { name: "LinkedIn", url: "https://www.linkedin.com/in/ashwin-s-360606325/" },
+                { name: "Instagram", url: "https://www.instagram.com/_glenn_maxwell_32__/" },
               ].map((item) => (
                 <motion.li
                   key={item.name}
@@ -66,7 +66,7 @@ const Footer = () => {
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className=" dark:text-white text-black transition-colors duration-300 flex items-center">
+                    className=" dark:text-white text-neutral-700 transition-colors duration-300 flex items-center">
                     {item.name}
                     <ArrowUpRight className="w-4 h-4 ml-1" />
                   </a>
@@ -76,8 +76,8 @@ const Footer = () => {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold">Our Vision</h3>
-            <p className="">
+            <h3 className="text-xl text-neutral-900 font-semibold">My Vision</h3>
+            <p className="text-neutral-700 font-medium">
               Pioneering the next generation of web experiences through
               innovative code and cutting-edge design.
             </p>
@@ -99,19 +99,19 @@ const Footer = () => {
         </div>
 
         <div
-          className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center">
+          className="mt-12 pt-8 border-t text-black border-white/10 flex flex-col md:flex-row justify-between items-center">
           <p className=" text-sm">
             &copy; {new Date().getFullYear()}. All rights reserved.
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <a
               href="#"
-              className=" hover:text-white transition-colors duration-300 text-sm">
+              className="text-black hover:text-neutral-500 transition-colors duration-300 text-sm">
               Privacy Policy
             </a>
             <a
               href="#"
-              className=" hover:text-white transition-colors duration-300 text-sm">
+              className="text-black hover:text-neutral-500 transition-colors duration-300 text-sm">
               Terms of Service
             </a>
           </div>
