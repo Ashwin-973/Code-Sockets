@@ -34,7 +34,7 @@ export const CodeBlock = ({
     : highlightLines;
 
   return (
-    <div className="relative   rounded-lg bg-slate-900 p-4 font-mono text-sm"> {/*min-w just to have this flex child free from dimensional constraint or leave it as block elements tend to take the size of the container*/}
+    <div className="min-h-[360px] max-h-[390px] min-w-[600px]  flex flex-col relative  rounded-lg bg-slate-900 p-4 font-mono text-sm"> {/*min-w just to have this flex child free from dimensional constraint or leave it as block elements tend to take the size of the container*/}
       <div className="flex flex-col gap-2">
         {tabsExist && (
           <div className="flex  overflow-x-auto">

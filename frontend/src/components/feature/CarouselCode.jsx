@@ -151,14 +151,14 @@ useEffect(()=>
   }
   return (
     // <div className="flex flex-col gap-4">
-    <div className="min-w-[60%] max-w-full">
+    <div className=" min-w-[90%] max-w-[95%] min-h-[360px] max-h-[400px]">
     <Carousel opts={{loop:true,align:"start"}} setApi={setApi} className="max-w-full" > {/*again no constraint here ,redundant class here */}
       <CarouselContent  >
         {allSlides.map((slide, index) => (
           <CarouselItem key={index}   >
             <div className="p-1">
               <Card >
-                <CardContent className="p-2 " > {/*how did removing flex fixed the issue? */}
+                <CardContent className="p-2" > {/*how did removing flex fixed the issue? */}
                 {currentSlideIndex === index && slide.isOriginal && isEditMode ? (
                       <AnimatePresence mode="wait">
                         <motion.div

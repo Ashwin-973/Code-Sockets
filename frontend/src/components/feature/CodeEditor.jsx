@@ -248,13 +248,12 @@ const handleSubmit = () => {
 
   
   return (
-    <div className="min-w-full min-h-full flex flex-col">    {/*grow-shrink with size of container */}
-    <div className="flex justify-center items-center  gap-3">
-      <form className="grow-7" >  {/*onSubmit handler removed*/}
-      {/* <div className="grow-7"> */}
-          <Box w="100%">
+    <div className="flex flex-col gap-3">    {/*grow-shrink with size of container */}
+    <div className="min-w-[600px] max-w-full flex justify-center items-center  gap-3">
+      <form className="w-full" >  {/*onSubmit handler removed*/}
+          {/* <Box w="100%"> */}
             {!isSolutionMode && !readOnly && ( 
-            <div className="mb-4 flex items-center justify-around">
+            <div className="mb-4 max-w-full flex items-center justify-around">
               <div className="flex items-center gap-4">
                 <Avatar>                                                     {/*modal header turns into this when it's a code-editor*/}
                   <AvatarImage src="https://i.pinimg.com/736x/b3/a7/33/b3a733480dcc957f5359941e60f4ad7c.jpg" alt="Mr.White" />
@@ -293,6 +292,8 @@ const handleSubmit = () => {
                 readOnly: readOnly,     
               }}
               height="50vh"
+              // max-height="390px !important"
+              width="920px"
               theme="vs-dark"
               language={language}
               defaultValue={initialCode || CODE_SNIPPETS[language]}
@@ -301,7 +302,7 @@ const handleSubmit = () => {
               value={value}
               onChange={(value) => setValue(value) }
             />
-          </Box>
+          {/* </Box> */}
           {/*{selectedRequest &&  selectedRequest.user_id===currentUser.id?(
             <div className="m-3 flex justify-around items-center">
               <button
@@ -334,7 +335,6 @@ const handleSubmit = () => {
           </div>
           )}*/}
       </form>
-      {/* </div> */}
     </div> {/*maybe have the description in pop-up too */}
     {(isSolutionMode || !readOnly) && (             
         <TextArea 

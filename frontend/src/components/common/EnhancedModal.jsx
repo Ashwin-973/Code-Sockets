@@ -37,7 +37,7 @@ function AnimatedModalDemo({children,onClose}) {
         </ModalTrigger>*/}
         <ModalBody>
           <ModalContent className="items-center !justify-between">
-              <ModalHeader/>
+              {!isEditMode?<ModalHeader/>:""}
               {children}
           </ModalContent>
           <ModalFooter className="gap-4 -mt-4">
