@@ -2,13 +2,20 @@ import { db } from "../configs/firebase";
 import { doc,collection, addDoc,updateDoc, serverTimestamp } from "firebase/firestore";
 
 export const sendNotification = async ({ recipientId, type, meta }) => {
-  await addDoc(collection(db, "notifications"), {
-    recipientId,
-    type,
-    meta, // custom info like OP name, request ID
-    createdAt: serverTimestamp(),
-    read: false
-  });
+  try{
+    const docRef= await addDoc(collection(db, "notifications"), {
+      recipientId,
+      type,
+      meta, // custom info like OP name, request ID
+      createdAt: serverTimestamp(),
+      read: false
+    });
+    console.log("Notification added with ID:", docRef.id);
+    return 
+  }
+  catch(err){
+    console.log(err)
+  }
 };
 
 export const updateNotification = async (documentId) => {

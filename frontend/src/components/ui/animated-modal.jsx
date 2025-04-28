@@ -178,14 +178,11 @@ export const useOutsideClick = (
   useEffect(() => {
     const listener = (event) => {
       // DO NOTHING if the element being clicked is the target element or their children
-      const isSelectElement = event.target.closest('[data-radix-select-content]') || 
+      const isSelectElement = 
       event.target.closest('[role="listbox"]') ||
       event.target.closest('data-slot') ||
       event.target.closest('[role="combobox"]') ||
-      event.target.closest('[id^="radix-"]') ||
-      event.target.closest('[data-radix-select-value]')||
-      event.target.closest('[data-radix-select-group]') ||
-      event.target.closest('[data-radix-select-trigger]');
+      event.target.closest('[id^="radix-"]');
       if (!ref.current || ref.current.contains(event.target) || isSelectElement) {
         return;
       }

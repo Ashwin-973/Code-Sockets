@@ -4,7 +4,8 @@ import { useModal } from "../../context/modelContext";
 import { skill_level } from "../../constants/skill";
 import { skillMode } from "../../constants/skill";
 import { CODE_SNIPPETS } from "../../constants/editor"
-import { Box, HStack } from "@chakra-ui/react";
+import { LANGUAGES } from "../../constants/editor";
+// import { Box, HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import { IconUrgent } from "@tabler/icons-react";  //urgent toggle , maybe change this as it's not customizable
 import { Toggle } from "../ui/toggle";
@@ -20,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select"
+import { SelectNew } from "../ui/select-new";
 import { Avatar,AvatarImage,AvatarFallback } from "../ui/avatar"; //swap this with hero's avatar later as it offers group avatars && Hold this for now
 import { useUserContext } from "../../context/userContext";
 
@@ -47,12 +49,13 @@ const CodeEditor = ({
   onComplete, 
   initialCode = "", 
   // language: initialLanguage = "javascript", 
-  initialLanguage,
+  initialLanguage="",
   readOnly = false, //convert this to isEditMode
   isSolutionMode = false  //why can't I just get it from useRequestContext
 }) => {
   const editorRef = useRef();  //don't allow submit when slider is untouched
   const [value, setValue] = useState(initialCode || "");
+  // const [selectedValue, setSelectedValue] = useState(null);
   const [language, setLanguage] = useState("javascript");  //change it to origin ui
   const [toggle,setToggle]=useState(false)
   const [slider,setSlider]=useState([0]) //why should I specify an array here?  - change slider to eldora-ui
@@ -62,7 +65,7 @@ const CodeEditor = ({
   const {currentUser}=useUserContext()
       //are these two effects redundant?
     // Use effect to update editor when selectedRequest changes              why does the two effects run like 12 times but not infinitely?
-
+console.log(toggle)
   useEffect(() => {
       if (selectedRequest && !isSolutionMode) {  //wtf is the use of solution mode?
         // if(selectedRequest){
@@ -77,10 +80,14 @@ const CodeEditor = ({
         }
         const mappedLanguage = mapLanguage(selectedRequest.language);
         setLanguage(mappedLanguage);
+
+        
            // If content is empty but we have a language, set default snippet , wtf is the use of this
     /*if (!selectedRequest.content && mappedLanguage) {
       setValue(CODE_SNIPPETS[mappedLanguage] || "");
     }*/
+
+
       }
     }, [selectedRequest]);
 
@@ -129,29 +136,34 @@ const CodeEditor = ({
   ]);
 //inclding set footer caused infinite re-render, why?
 
+// Add this effect to update code snippets when language changes
+useEffect(() => {
+  // Only update the code snippet if we're not editing an existing request
+  if (!selectedRequest && language) {
+    setValue(CODE_SNIPPETS[language] || "");
+  }
+}, [language, selectedRequest]);
 
-
-
-  
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
   };
 
-  function handleSelect(language){
+  /*function handleSelect(language){
     
     /*Only set the code snippet if we're not editing an existing request , I do not understand how this solved the problem...
     whenever a change happens in the select component (i.e through the setLanguage , it calls the handleSelect of the onValueChange which sets language with default code snipper) , shouldn't theb previous approach 
-    caused an infinite re-render??*/
+    caused an infinite re-render??
     setLanguage(language);
     if (!selectedRequest) {
       setValue(CODE_SNIPPETS[language] || "");
     }
 
-  }
+  }*/
 
 
   function handleToggle(){
+    console.log(toggle)
     setToggle(!toggle)
   }
   function handleSlider(slider){
@@ -246,7 +258,7 @@ const handleSubmit = () => {
   };
 };
 
-  
+console.log(language)
   return (
     <div className="flex flex-col gap-3">    {/*grow-shrink with size of container */}
     <div className="min-w-[600px] max-w-full flex justify-center items-center  gap-3">
@@ -259,7 +271,7 @@ const handleSubmit = () => {
                   <AvatarImage src="https://i.pinimg.com/736x/b3/a7/33/b3a733480dcc957f5359941e60f4ad7c.jpg" alt="Mr.White" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                  <Select onValueChange={handleSelect} value={language}> {/*shadcn handles uncontrolled state mgmt to reflect the UI, without useState , have the slider in a dialog box*/}
+                  {/*<Select onValueChange={handleSelect} value={language}> shadcn handles uncontrolled state mgmt to reflect the UI, without useState , have the slider in a dialog box
                     <SelectTrigger className="w-[200px]">
                       <SelectValue placeholder="Language" />
                     </SelectTrigger>
@@ -274,7 +286,12 @@ const handleSubmit = () => {
                           <SelectItem value="php">php</SelectItem>
                       </SelectGroup>
                   </SelectContent>
-                  </Select>
+                  </Select>*/}
+                  <SelectNew 
+                    options={LANGUAGES}
+                    value={language}
+                    onChange={setLanguage}
+                  />
                 </div>
                 <div className="flex items-center gap-4">
                   <Toggle onClick={handleToggle}>

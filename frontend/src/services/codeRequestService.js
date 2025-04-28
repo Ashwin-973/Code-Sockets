@@ -91,6 +91,7 @@ const updateRequest=async(id,modifiedData)=>
         if(!response.ok){
             throw new Error('Error updating request')
         }
+        console.log("Updated!!")
         const parsed=await response.json()
         return parsed.message
     }

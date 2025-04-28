@@ -63,23 +63,32 @@ const confirmSolution= async(requestData,solutionData,versionNumber)=>
   const options={
     method:'PUT',
 }
+console.log(requestData)
+console.log(solutionData)
 try{
     const response=await fetch(`${API_URL}/codebuddy/solution/${requestData.id}?helper_id=${solutionData.helper_id}&version=${versionNumber}`,options)
     if(!response.ok){
         throw new Error('Error confirming Solution')
     }
+    console.log("Pulled")
     const parsed=await response.json()
     //accept soln notification
+   try{
+    console.log("entered")
+     await sendNotification({
+         // recipientId: helperId,
+         recipientId:solutionData.helper_id,
+         type: "solution_accepted",
+         // meta: { requestId, opName: currentUser.name }  //why reqid?
+         meta: { requestId:requestData.id, opName:requestData.user_id }
+       });
     console.log("Notification sent to helper")
-    //should I have another try-catch?
-    await sendNotification({
-        // recipientId: helperId,
-        recipientId:solutionData.helper_id,
-        type: "solution_accepted",
-        // meta: { requestId, opName: currentUser.name }  //why reqid?
-        meta: { requestId:requestData.id, opName:requestData.user_id }
-      });
-
+   }
+   catch(err){
+    console.log(err || err.stack)
+    console.log('notifications not sent to helper')
+   }
+   console.log("retruning")
     return parsed.message
 }
 catch(err)
