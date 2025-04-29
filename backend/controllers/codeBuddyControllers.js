@@ -42,9 +42,9 @@ const createRequest=async(req,res)=>
 {
     //validate all fields
     try{
-        const {user_id, skill_level_required, content, language, urgent_toggle, problem_description, is_open, status}=req.body
-        await sql`INSERT INTO code_requests (user_id, skill_level_required, content, language, urgent_toggle, problem_description, is_open, status)
-        VALUES(${user_id},${skill_level_required} , ${content}, ${language}, ${urgent_toggle},${problem_description},${is_open},${status});`
+        const {user_id, content, language, urgent_toggle, problem_description, is_open, status}=req.body
+        await sql`INSERT INTO code_requests (user_id, content, language, urgent_toggle, problem_description, is_open, status)
+        VALUES(${user_id}, ${content}, ${language}, ${urgent_toggle},${problem_description},${is_open},${status});`
       // res.send(newRequest) both res.send and res.json are sent to the client?
         return res.status(201).json({
             message:'Request Created',
@@ -88,11 +88,10 @@ const modifyRequest=async(req,res)=>
 {
     const {id}=req.params
     try{
-        const {user_id, skill_level_required, content, language, urgent_toggle, problem_description, is_open, status}=req.body //put request doesn't require a body
+        const {user_id, content, language, urgent_toggle, problem_description, is_open, status}=req.body //put request doesn't require a body
         const modifiedRequest=await sql`UPDATE code_requests
                 SET
                 user_id = ${user_id},
-                skill_level_required = ${skill_level_required},
                 content = ${content},
                 language = ${language},
                 urgent_toggle = ${urgent_toggle},

@@ -1,8 +1,8 @@
 import { useRef, useState,useEffect } from "react";
 import { useRequestContext } from "../../context/requestContext";
 import { useModal } from "../../context/modelContext";
-import { skill_level } from "../../constants/skill";
-import { skillMode } from "../../constants/skill";
+// import { skill_level } from "../../constants/skill";
+// import { skillMode } from "../../constants/skill";
 import { CODE_SNIPPETS } from "../../constants/editor"
 import { LANGUAGES } from "../../constants/editor";
 // import { Box, HStack } from "@chakra-ui/react";
@@ -25,7 +25,7 @@ import { SelectNew } from "../ui/select-new";
 import { Avatar,AvatarImage,AvatarFallback } from "../ui/avatar"; //swap this with hero's avatar later as it offers group avatars && Hold this for now
 import { useUserState } from "../../context/userContext";
 
-const mapLanguage = (dbLanguage) => {
+/*const mapLanguage = (dbLanguage) => {
   // Create a mapping of possible DB values to your select values
   const languageMap = {
     'javascript': 'javascript',
@@ -42,7 +42,7 @@ const mapLanguage = (dbLanguage) => {
   
   // Return the mapped value or default to javascript
   return languageMap[dbLanguage?.toLowerCase()];
-};
+};*/
 
 //if the current request details are got from selectedRequest then wts the use of getRequest endpoint?
 const CodeEditor = ({ 
@@ -58,7 +58,7 @@ const CodeEditor = ({
   // const [selectedValue, setSelectedValue] = useState(null);
   const [language, setLanguage] = useState("javascript");  //change it to origin ui
   const [toggle,setToggle]=useState(false)
-  const [slider,setSlider]=useState([0]) //why should I specify an array here?  - change slider to eldora-ui
+  // const [slider,setSlider]=useState([0]) //why should I specify an array here?  - change slider to eldora-ui
   const [description,setDescription]=useState("")
   const { setFooterButtons } = useModal();
   const { addRequest, isLoading ,selectedRequest,isEditMode,submitSolution,refurbishRequest,removeRequest} = useRequestContext();
@@ -73,13 +73,13 @@ console.log(toggle)
           setValue(selectedRequest.content);
           if(isEditMode){
             setToggle(selectedRequest.urgent_toggle)
-            setSlider([skillMode[selectedRequest.skill_level_required]])  //cant' I do this better?
+            // setSlider([skillMode[selectedRequest.skill_level_required]])  //cant' I do this better?
             setDescription(selectedRequest.problem_description)
           }
 
         }
-        const mappedLanguage = mapLanguage(selectedRequest.language);
-        setLanguage(mappedLanguage);
+        // const mappedLanguage = mapLanguage(selectedRequest.language);
+        setLanguage(selectedRequest.language);
 
         
            // If content is empty but we have a language, set default snippet , wtf is the use of this
@@ -130,7 +130,7 @@ console.log(toggle)
     value,           
     language, 
     toggle, 
-    slider, 
+    // slider, 
     description,
     currentUser.id,
   ]);
@@ -166,9 +166,9 @@ useEffect(() => {
     console.log(toggle)
     setToggle(!toggle)
   }
-  function handleSlider(slider){
+  /*function handleSlider(slider){
     setSlider(slider)
-  }
+  }*/
   function handleDescription(desc){
     setDescription(desc)
   }
@@ -178,7 +178,7 @@ const handleUpdate=async()=>
   if(!isSolutionMode && selectedRequest){                 //why should I have the selectedRequest
     const updatedData = {
       user_id: selectedRequest.user_id, // From user context   , should I use selectedRequest or currentUser , which is good practice
-      skill_level_required: skill_level[slider[0]],
+      // skill_level_required: skill_level[slider[0]],
       content: value,
       language: language,
       urgent_toggle: toggle,
@@ -237,7 +237,7 @@ const handleSubmit = () => {
 
     const requestData = {
       user_id: currentUser.id,
-      skill_level_required: skill_level[slider[0]],
+      // skill_level_required: skill_level[slider[0]],
       content: value,
       language: language,
       urgent_toggle: toggle,
@@ -258,7 +258,6 @@ const handleSubmit = () => {
   };
 };
 
-console.log(language)
   return (
     <div className="flex flex-col gap-3">    {/*grow-shrink with size of container */}
     <div className="min-w-[600px] max-w-full flex justify-center items-center  gap-3">
@@ -297,16 +296,17 @@ console.log(language)
                   <Toggle onClick={handleToggle}>
                     <IconUrgent size={64}/>  {/*why won't size work? */}
                   </Toggle>
-                  <Slider onValueChange={handleSlider}  value={slider}  min={0} max={4} step={1}/> {/*was this so hacky??*/}
+                  {/* <Slider onValueChange={handleSlider}  value={slider}  min={0} max={4} step={1}/> was this so hacky?? */}
                 </div>
             </div>
-              )}                                   {/*use handle validation prop */}
+              )}                                   {/*use handle validation prop  , maybe use save view state for editor*/}
             <Editor                 
               options={{
                 minimap: {
                   enabled: false,
                 },
                 readOnly: readOnly,     
+      
               }}
               height="50vh"
               // max-height="390px !important"

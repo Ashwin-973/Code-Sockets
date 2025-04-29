@@ -20,7 +20,7 @@ const testimonials = [
   },
   {
     image: 'https://i.pinimg.com/474x/17/5f/8e/175f8efaa0384e1afd5646c537bab369.jpg',
-    text: ` like these calm little moments before the storm. It reminds me of Beethoven. Can you hear it? It's like when you put your head to the grass and you can hear the growin' and you can hear the insects. Do you like Beethoven?`,
+    text: `I like these calm little moments before the storm. It reminds me of Beethoven. Can you hear it? It's like when you put your head to the grass and you can hear them growin' and you can hear the insects. Do you like Beethoven?`,
     name: 'Norman Stensfield',
     jobtitle: 'The unpredictable cop',
     rating: 5

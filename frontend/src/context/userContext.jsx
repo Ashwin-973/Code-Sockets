@@ -37,7 +37,7 @@ export function UserProvider({ children }) {
     initializeUser();
   }, [user?.sub]);
 
-  const currentUser={id:authState?.currentUserData?.id,skill_level:authState?.currentUserData?.skill_level}
+  const currentUser={id:authState?.currentUserData?.id}
   console.log("user",authState)
 
 

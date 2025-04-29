@@ -40,9 +40,9 @@ export function Header() {
   ];
   return (
             <div className="flex justify-between items-center my-4">
-              <div className="flex items-center gap-4">
-                <GradientText colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]} animationSpeed={3} showBorder={false} className="custom-class">Name</GradientText>
-                <GradientText colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]} animationSpeed={3} showBorder={false} className="custom-class">Current Page</GradientText>
+              <div className="flex items-center gap-8">
+                <GradientText colors={["#808080", "#FFD700", "#FFA500", "#FFD700", "#808080"]} animationSpeed={3} showBorder={false} className="custom-class">{currentUserData.name}</GradientText>
+                <GradientText colors={["#808080", "#FFD700", "#FFA500", "#FFD700", "#808080"]} animationSpeed={3} showBorder={false} className="custom-class">Code Requests</GradientText>
               </div>
               <div className="flex items-center justify-center ">
               <FloatingDock

@@ -3,7 +3,7 @@ const API_URL = import.meta.env.MODE === 'production'
   : 'http://localhost:3000';
 
 import { sendNotification } from "./notificationService";
-
+import { fetchUser } from "./userService";
 const getSolutions = async (requestId) => {
   try {
     const response = await fetch(`${API_URL}/codebuddy/solution/${requestId}`);
@@ -34,14 +34,14 @@ const submitSolution = async (requestData,solutionData) => {   //how do I get th
     }
     const parsed = await response.json();
     //help soln notification
-    
+    const helperInfo=await fetchUser(solutionData.helper_id)
     try{
       await sendNotification({
           // recipientId: originalPosterId,
           recipientId: requestData.user_id,
           type: "solution_submitted",
           // meta: { requestId, helperName: currentUser.name }  //why the use of current use in both places , a similar usage in accept soln is logical?
-          meta: { requestId:requestData.id, helperName: solutionData.helper_id }
+          meta: { requestId:requestData.id, helperName: solutionData.helper_id,profile:helperInfo.profile }
         });
         console.log("Notification sent to OP")
     }
@@ -73,6 +73,7 @@ try{
     console.log("Pulled")
     const parsed=await response.json()
     //accept soln notification
+    const opInfo=await fetchUser(requestData.user_id)
    try{
     console.log("entered")
      await sendNotification({
@@ -80,7 +81,7 @@ try{
          recipientId:solutionData.helper_id,
          type: "solution_accepted",
          // meta: { requestId, opName: currentUser.name }  //why reqid?
-         meta: { requestId:requestData.id, opName:requestData.user_id }
+         meta: { requestId:requestData.id, opName:requestData.user_id,profile:opInfo.profile }
        });
     console.log("Notification sent to helper")
    }

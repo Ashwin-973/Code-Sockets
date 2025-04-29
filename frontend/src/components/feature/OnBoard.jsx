@@ -23,7 +23,7 @@ export function OnBoard(){
     name:name,
     anonymous_name:null,
     profile:profile,
-    skill_level:null,
+    // skill_level:null,
     interests:null,
     mood:null,
     status:'active',

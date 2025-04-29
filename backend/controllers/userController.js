@@ -2,7 +2,7 @@ import { sql } from "../configs/neon.js"
 
 const storeUser = async(req, res) => {
     try {
-      const { id, name, anonymous_name, profile, skill_level, interests, mood, status,onboarded } = req.body;
+      const { id, name, anonymous_name, profile, interests, mood, status,onboarded } = req.body;
       
 
       //if user already exists don't store user
@@ -27,8 +27,8 @@ const storeUser = async(req, res) => {
         });
       }
       const newUser = await sql`
-        INSERT INTO users (id, name, anonymous_name, profile, skill_level, interests, mood, status,onboarded) 
-        VALUES (${id}, ${name}, ${anonymous_name || null}, ${profile || null}, ${skill_level || 'beginner'}, ${interests || null}, ${mood || null}, ${status || 'active'}
+        INSERT INTO users (id, name, anonymous_name, profile, interests, mood, status,onboarded) 
+        VALUES (${id}, ${name}, ${anonymous_name || null}, ${profile || null}, ${interests || null}, ${mood || null}, ${status || 'active'}
         ,${onboarded})
         RETURNING *;
       `;

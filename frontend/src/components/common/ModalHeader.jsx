@@ -119,9 +119,9 @@ const currentSlide = useMemo(() => {
                   <h3 className="font-medium">
                     {currentUser?.name || currentUser?.anonymous_name || "Anonymous User"}
                   </h3>
-                  <p className="text-sm text-gray-500">
-                    {currentUser?.skill_level || "Unknown skill level"}   {/*ig skill level is not needed*/}
-                  </p>
+                  {/*<p className="text-sm text-gray-500">
+                    {currentUser?.skill_level || "Unknown skill level"}   {/*ig skill level is not needed
+                  </p>*/}
                 </div>
               </div>
               

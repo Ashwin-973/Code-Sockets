@@ -1,14 +1,14 @@
 "use client";
 import {useState,useEffect,useMemo} from 'react'
 import { motion } from "framer-motion";
-import Modal from '../Modal';
+// import Modal from '../Modal';
 import { ModalContainer } from "../common/ModalContainer";
 import { useRequestContext } from "../../context/requestContext";
 import { useUserState } from "../../context/userContext";
 import { CodeBlock } from "../ui/code-block";
-import CodeEditor from "../feature/CodeEditor"
+// import CodeEditor from "../feature/CodeEditor"
 import { Avatar,AvatarImage,AvatarFallback } from "../ui/avatar"; 
-import { Button } from "../ui/button";  //change this to serenity Ui's tech stack button
+import { Button } from "../ui/button";  //change this to serenity  tech stack button
 import { IconBadgeTm, IconUrgent } from "@tabler/icons-react";
 import {CircleCheckBig} from "lucide-react"
 import {UserRoundCheck} from "lucide-react"
@@ -22,7 +22,7 @@ function DynamicGrid({items}) {
     const { currentUser,getUserInfo } = useUserState();
     const [userProfiles, setUserProfiles] = useState({});
     // Memoize the filtered items to prevent recreation on each render (why does items keep chnaging before they were memoized?)
-    const filteredItems = useMemo(() => {
+    /*const filteredItems = useMemo(() => {
     return items.filter((item) => {
       return (
         (currentUser && item.user_id === currentUser.id) || 
@@ -30,7 +30,7 @@ function DynamicGrid({items}) {
         item.skill_level_required === "free to all"
       );
     });
-    }, [items, currentUser]);
+    }, [items, currentUser]);*/
     /*const uniqueUsers=items.filter((item)=>
     {
       console.log(!uniqueUsers.includes(item.user_id ))  //creates a circular reference

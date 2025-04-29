@@ -164,7 +164,7 @@ export function NotificationPopover({userId}) {
             <div className="relative flex items-start gap-3 pe-3">
               <img
                 className="size-9 rounded-md"
-                src="https://i.pinimg.com/736x/b7/ec/9e/b7ec9e12d321ae77d631635632e75a48.jpg"
+                src={notification.meta.profile ||"https://i.pinimg.com/736x/b7/ec/9e/b7ec9e12d321ae77d631635632e75a48.jpg"}
                 width={32}
                 height={32}
                 alt={notification.type==='solution_submitted'?
