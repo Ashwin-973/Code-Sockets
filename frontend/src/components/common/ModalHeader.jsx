@@ -2,7 +2,7 @@
 import { useEffect ,useState,useMemo} from "react"
 import { useModal } from "../../context/modelContext"
 import { useRequestContext } from "../../context/requestContext"
-import { useUserContext } from "../../context/userContext"
+import { useUserState } from "../../context/userContext"
 import { AnimatedTooltipPreview } from "./AnimatedProfile"
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronUp, ChevronDown } from "lucide-react";
@@ -18,7 +18,7 @@ function ModalHeader(){
     const [isCollapsed, setIsCollapsed] = useState(false);                        //is this the only way, state for profile details??
     const {open,modalType}=useModal()
     const { selectedRequest, solutions, currentSlideIndex, isEditMode } = useRequestContext();
-    const {getUserInfo} = useUserContext()
+    const {getUserInfo} = useUserState()
     //maybe get the current user state when doing auth, and pass it through context
     /*useEffect(() => {                 //use loading and error state for enhancement
 

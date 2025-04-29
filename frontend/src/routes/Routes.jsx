@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '../auth/AuthProvider';
-import { AuthStateProvider } from '../auth/AuthStateProvider';
+// import { AuthStateProvider } from '../auth/AuthStateProvider';
+import { UserProvider } from '../context/userContext';
 import { ProtectedRoute } from '../auth/ProtectedRoute';
 import { Home } from "../pages/Home"
 import { OnBoard } from '../components/feature/OnBoard';
@@ -11,7 +12,8 @@ import { NotFound } from '../pages/NotFound';
 function Navigator() {
   return (
   <AuthProvider>
-    <AuthStateProvider>
+    {/* <AuthStateProvider> */}
+    <UserProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         {/* Onboarding is protected but accessible even if not onboarded */}
@@ -35,7 +37,8 @@ function Navigator() {
         <Route path="*" element={<NotFound />} />
         {/* <Route path="/profile" element={<Profile />} /> */}
       </Routes>
-    </AuthStateProvider>
+    {/* </AuthStateProvider> */}
+    </UserProvider>
   </AuthProvider>
   );
 }

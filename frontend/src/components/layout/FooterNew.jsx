@@ -19,7 +19,7 @@ const Footer = () => {
               <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqtAik0ejZLca3OozKryC1L92v5sAVvhRnlQ&s " className="size-20 rounded-full"/>
             </motion.h2>
             <p className="text-xl text-neutral-900 font-medium mb-4">About Me</p>
-            <p className="text-neutral-700 font-medium">Shaping the future of web development</p>
+            <p className="text-neutral-700 font-medium">Just a curious developer who loves building things that bring people together. Whether it's helping someone debug a tricky bug or learning from a better way to write code, I believe tech is at its best when it's shared.</p>
             {/*<div className="relative">
               <input
                 type="email"
@@ -78,8 +78,7 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-xl text-neutral-900 font-semibold">My Vision</h3>
             <p className="text-neutral-700 font-medium">
-              Pioneering the next generation of web experiences through
-              innovative code and cutting-edge design.
+            To create a space where developers don’t feel stuck or alone—where asking for help is easy, collaborating is natural, and learning happens every day through real code and real people.
             </p>
             <div className="flex space-x-4">
               <motion.div

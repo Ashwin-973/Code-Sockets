@@ -1,12 +1,13 @@
 "use client";
 //from shapex
 //include features in the cards provided
-
+import { useAuth0 } from "@auth0/auth0-react";
 import { motion } from "framer-motion";
 import { Lock } from "lucide-react";
 import { Button } from "../ui/button";
 
 const CTASection = () => {
+  const {isLoading,loginWithRedirect} = useAuth0()
   return (
     // <section
     //   className=" py-12 bg-gradient-to-br from-purple-700 via-indigo-800 to-blue-900 relative overflow-hidden">
@@ -85,8 +86,9 @@ const CTASection = () => {
                 className="w-full px-6 py-4 text-white bg-white bg-opacity-20 rounded-full placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-opacity-30 transition duration-300"
                 required />
             </div>*/}
-            <Button
-              type="submit"
+            <Button onClick={() => loginWithRedirect({
+                  appState: { returnTo: '/onboarding' }})}
+              type="button"
               size="lg"
               className="w-full sm:w-auto px-12 py-7 bg-amber-500 text-white font-bold rounded-full hover:bg-amber-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-purple-700 transition duration-300">
               Start Coding Together

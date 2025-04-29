@@ -44,7 +44,6 @@ export function NavBar() {
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
             <NavbarButton variant="destructive" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Logout</NavbarButton>
-            {/* <NavbarButton variant="primary">Login</NavbarButton> */}
             <NavbarButton variant="primary"   onClick={() => loginWithRedirect({
            appState: { returnTo: '/onboarding' }})} >Get Started</NavbarButton>
           </div>

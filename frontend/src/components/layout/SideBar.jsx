@@ -1,11 +1,15 @@
 "use client";
+import logo from "../../assets/code-sockets-high-resolution-logo.png"
 import React, { useState } from "react";
+import { useUserState } from "../../context/userContext";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 import {
   IconArrowLeft,
   IconBrandTabler,
   IconSettings,
   IconUserBolt,
+  IconHome
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { cn } from "../../lib/utils";
@@ -13,6 +17,9 @@ import { Header } from "./Header";
 import { Dexter } from "./Dexter";
 
 export function TheSidebar() {
+  const {currentUserData}=useUserState()
+  const{isLoading,logout}=useAuth0()
+
   const links = [
     {
       label: "Code Requests",
@@ -36,8 +43,16 @@ export function TheSidebar() {
       ),
     },
     {
+      label:"Home",
+      href:"/",
+      icon:(
+        <IconHome className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      )
+
+    },
+    {
       label: "Logout",
-      href: "#",
+      href:() => logout({ logoutParams: { returnTo: window.location.origin } }),
       icon: (
         <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -64,11 +79,11 @@ export function TheSidebar() {
           <div>
             <SidebarLink
               link={{
-                label: "Manu Arora",
+                label:currentUserData?.name,
                 href: "#",
                 icon: (
                   <img
-                    src="https://assets.aceternity.com/manu.png"
+                    src={currentUserData?.profile}
                     className="h-7 w-7 shrink-0 rounded-full"
                     width={50}
                     height={50}
@@ -87,13 +102,13 @@ export const Logo = () => {
     <a
       href="#"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black">
-      <div
-        className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+      <img
+        className="size-6" src={logo} alt="logo" />
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="font-medium whitespace-pre text-black dark:text-white">
-        Acet Labs
+        Code Sockets
       </motion.span>
     </a>
   );
@@ -103,8 +118,8 @@ export const LogoIcon = () => {
     <a
       href="#"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black">
-      <div
-        className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+      <img
+        className="size-6" src={logo} alt="logo" />
     </a>
   );
 };

@@ -1,32 +1,82 @@
 "use client";
+import {useState,useEffect,useMemo} from 'react'
 import { motion } from "framer-motion";
 import Modal from '../Modal';
 import { ModalContainer } from "../common/ModalContainer";
 import { useRequestContext } from "../../context/requestContext";
-import { useUserContext } from "../../context/userContext";
+import { useUserState } from "../../context/userContext";
 import { CodeBlock } from "../ui/code-block";
 import CodeEditor from "../feature/CodeEditor"
 import { Avatar,AvatarImage,AvatarFallback } from "../ui/avatar"; 
 import { Button } from "../ui/button";  //change this to serenity Ui's tech stack button
-import { IconUrgent } from "@tabler/icons-react";
+import { IconBadgeTm, IconUrgent } from "@tabler/icons-react";
 import {CircleCheckBig} from "lucide-react"
 import {UserRoundCheck} from "lucide-react"
 import {Trash2} from 'lucide-react'
 import {Pencil} from 'lucide-react'
 
-// const id='auth0|summerfinn'
-// const skill_level='moderate'
+
 
 function DynamicGrid({items}) {
     const { selectRequest,removeRequest,selectRequestWithSolutions,toggleEditMode} = useRequestContext();
-    const { currentUser } = useUserContext();
-    items = items.filter((item) => {        //why does this fetch only two requests
+    const { currentUser,getUserInfo } = useUserState();
+    const [userProfiles, setUserProfiles] = useState({});
+    // Memoize the filtered items to prevent recreation on each render (why does items keep chnaging before they were memoized?)
+    const filteredItems = useMemo(() => {
+    return items.filter((item) => {
       return (
         (currentUser && item.user_id === currentUser.id) || 
         (currentUser && item.skill_level_required === currentUser.skill_level) || 
         item.skill_level_required === "free to all"
       );
     });
+    }, [items, currentUser]);
+    /*const uniqueUsers=items.filter((item)=>
+    {
+      console.log(!uniqueUsers.includes(item.user_id ))  //creates a circular reference
+      if (!uniqueUsers.includes(item.user_id ))   
+      {
+        return item.user_id
+      }
+    })
+    console.log(uniqueUsers)*/
+    // Extract unique user IDs
+  useEffect(() => {
+    let isMounted = true;
+    const fetchUserProfiles = async () => {
+      // Get unique user IDs using Set
+      const uniqueUserIds = [...new Set(items.map(item => item.user_id))];
+      
+      // Create a temporary object to store profiles
+      const profiles = {};
+      
+      // Fetch each user's profile
+      for (const userId of uniqueUserIds) {
+        try {
+          const userData = await getUserInfo(userId);
+          if (userData && userData.length > 0) {
+            profiles[userId] = userData[0].profile;
+          }
+        } catch (error) {
+          console.error(`Failed to fetch profile for user ${userId}:`, error);
+        }
+      }
+      if(isMounted){
+        setUserProfiles(profiles);
+        console.log(profiles)
+      }
+    };
+    
+    if (items.length > 0) {
+      fetchUserProfiles();
+    }
+    return () => {
+      isMounted = false;
+    };
+
+    
+  }, [items,getUserInfo]);
+
     const handleRequestClick = (item) => {
       selectRequestWithSolutions(item, 'carousel');         //I modified something here
       
@@ -86,7 +136,7 @@ function DynamicGrid({items}) {
                 <div className="bg-gray-300 border border-gray-400 p-2 rounded-lg flex justify-around items-center ">
                     <div className="flex justify-center items-center gap-6">
                         <Avatar>  {/*How do I dynamically populate the avatar?*/}
-                            <AvatarImage src="https://i.pinimg.com/736x/b3/a7/33/b3a733480dcc957f5359941e60f4ad7c.jpg" alt="Mr.White" />
+                            <AvatarImage src={userProfiles[item.user_id] || "https://media.npr.org/assets/img/2012/07/10/walterwhite_wide-24664a3dc903dff3bf3fe17a27996d6a174ee50b.jpg?s=1100&c=50&f=jpeg"} alt="Mr.White" />
                             <AvatarFallback>WW</AvatarFallback>
                         </Avatar>
                         <Button variant="secondary">{item.language}</Button>

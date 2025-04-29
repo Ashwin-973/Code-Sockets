@@ -1,5 +1,6 @@
 //rename this as main
-import { useUserContext } from "../../context/userContext";
+import { useUserState } from "../../context/userContext";
+import { useAuth0 } from "@auth0/auth0-react";
 import { FloatingDock } from "../ui/floating-dock";
 import {
   IconBellFilled,
@@ -10,7 +11,8 @@ import { AnonymousToggle } from "../feature/AnonymousToggle";
 import { GradientText } from "../ui/gradient-text";
 
 export function Header() {
-  const {currentUser}=useUserContext()
+  const {currentUserData,currentUser}=useUserState()
+  const {isLoading,logout}=useAuth0()
   const links = [
     {
       title: "Anonymous Mode",
@@ -31,7 +33,7 @@ export function Header() {
     {
       title: "Info",
       icon: (
-        <ProfileDropdown/>
+        <ProfileDropdown logout={logout}  profile={currentUserData?.profile} name={currentUserData?.name}/>
       ),
       href: "#",
     },

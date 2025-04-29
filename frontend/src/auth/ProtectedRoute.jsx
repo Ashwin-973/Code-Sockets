@@ -1,10 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuthState } from './AuthStateProvider';
+import { useUserState } from '../context/userContext';
 import {Spinner} from "@heroui/react";
 export const ProtectedRoute = ({ children, requireOnboarding = false }) => {
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth0();
-  const { isOnboarded, isLoading: isStateLoading } = useAuthState();
+  const { isOnboarded, isLoading: isStateLoading } = useUserState();
   const location = useLocation();
 
   // Show loading state while checking auth/onboarding
@@ -26,6 +26,7 @@ export const ProtectedRoute = ({ children, requireOnboarding = false }) => {
   if (!requireOnboarding && isOnboarded && location.pathname === '/onboarding') {
     return <Navigate to="/collaborate" replace />;
   }
+
 
   return children;
 }

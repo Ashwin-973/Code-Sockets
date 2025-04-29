@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useModal } from "../../context/modelContext";
 import { useRequestContext } from "../../context/requestContext"
-import { useUserContext } from "../../context/userContext";
+import { useUserState } from "../../context/userContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "../ui/card"
 import {
@@ -28,7 +28,7 @@ export function CarouselCode() {
       isSolutionMode,
       toggleSolutionMode
 } =useRequestContext()
-const {currentUser}=useUserContext()
+const {currentUser}=useUserState()
   const {closeModal,setFooterButtons,setFooterUtils,modalType} =useModal()
   const [api, setApi] = useState(null); //acts as a bridge bw embla's internal state and react's compo state. Let's the component know...which slide the user is currently on
   const [explanation, setExplanation] = useState("");

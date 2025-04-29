@@ -1,9 +1,11 @@
 "use client";
 //from ace
+import { useAuth0 } from "@auth0/auth0-react";
 import { BackgroundBeamsWithCollision } from "../ui/background-beams-with-collision";
 import { motion } from "motion/react";
 
 export function HeroSection() {
+  const {iLoading,loginWithRedirect} = useAuth0()
   return (
     // <BackgroundBeamsWithCollision>
     <div
@@ -70,7 +72,8 @@ export function HeroSection() {
             delay: 1,
           }}
           className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-4">  {/*I guess it'd be better to place one button */}
-          <button
+          <button onClick={() => loginWithRedirect({
+           appState: { returnTo: '/onboarding' }})} 
             className="w-60 transform rounded-lg bg-amber-500 px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-300 dark:bg-white dark:text-black dark:hover:bg-gray-200">
             Start Coding Together
           </button>

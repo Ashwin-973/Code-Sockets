@@ -2,16 +2,19 @@ import { useState } from 'react';
 import {useAuth0} from '@auth0/auth0-react'
 import {useNavigate} from 'react-router-dom'
 import { useUpdateUserMetadata } from '../../services/userService';
+import { useUserState } from '../../context/userContext';
 import { createUser } from '../../services/userService';
 import {Stepper,Step} from '../ui/stepper';
 import { Avatar,AvatarImage,AvatarFallback } from "../ui/avatar"; 
 import { PlaceholdersAndVanishInput } from "../ui/placeholders-and-vanish-input";
 
 import {StepperInput} from "../common/StepperInput"
+
 export function OnBoard(){
-  const[profile,setProfile]=useState("https://d2thvodm3xyo6j.cloudfront.net/media/2023/05/d11e888305982463-600x338.jpg" )
+  const[profile,setProfile]=useState("https://i.pinimg.com/736x/52/03/64/520364fb8729a8b058e39dbd353595b3.jpg")
   const[name,setName]=useState("")
   const {isLoading,user} =useAuth0()
+  const {updateAuthState}=useUserState()
   const { updateMetadata } = useUpdateUserMetadata();
   const navigate = useNavigate();
   console.log("User at Onboard",user)
@@ -30,7 +33,12 @@ const handleOnboarding=async()=>
   {
     try{
       await createUser(userData)
+      updateAuthState({isLoading: false,
+        isOnboarded: true,
+        currentUserData: userData,
+        error: null})
       navigate('/collaborate');
+      console.log("navigation successful")
     }
     catch(err)
     {
@@ -55,7 +63,7 @@ console.log(name)
   };
 
   const onSubmit = (e) => {
-    setProfile("https://d2thvodm3xyo6j.cloudfront.net/media/2023/05/d11e888305982463-600x338.jpg" )
+    setProfile("https://i.pinimg.com/736x/52/03/64/520364fb8729a8b058e39dbd353595b3.jpg" )
     setName("")
     e.preventDefault();
   };

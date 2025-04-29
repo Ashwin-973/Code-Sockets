@@ -23,7 +23,7 @@ import {
 } from "../ui/select"
 import { SelectNew } from "../ui/select-new";
 import { Avatar,AvatarImage,AvatarFallback } from "../ui/avatar"; //swap this with hero's avatar later as it offers group avatars && Hold this for now
-import { useUserContext } from "../../context/userContext";
+import { useUserState } from "../../context/userContext";
 
 const mapLanguage = (dbLanguage) => {
   // Create a mapping of possible DB values to your select values
@@ -62,7 +62,7 @@ const CodeEditor = ({
   const [description,setDescription]=useState("")
   const { setFooterButtons } = useModal();
   const { addRequest, isLoading ,selectedRequest,isEditMode,submitSolution,refurbishRequest,removeRequest} = useRequestContext();
-  const {currentUser}=useUserContext()
+  const {currentUserData,currentUser}=useUserState()
       //are these two effects redundant?
     // Use effect to update editor when selectedRequest changes              why does the two effects run like 12 times but not infinitely?
 console.log(toggle)
@@ -268,8 +268,8 @@ console.log(language)
             <div className="mb-4 max-w-full flex items-center justify-around">
               <div className="flex items-center gap-4">
                 <Avatar>                                                     {/*modal header turns into this when it's a code-editor*/}
-                  <AvatarImage src="https://i.pinimg.com/736x/b3/a7/33/b3a733480dcc957f5359941e60f4ad7c.jpg" alt="Mr.White" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src={currentUserData?.profile} alt="profile" />
+                  <AvatarFallback>WW</AvatarFallback>
                 </Avatar>
                   {/*<Select onValueChange={handleSelect} value={language}> shadcn handles uncontrolled state mgmt to reflect the UI, without useState , have the slider in a dialog box
                     <SelectTrigger className="w-[200px]">

@@ -7,11 +7,11 @@ const content = [
   {
     title: "AI Answers Feel So One-Dimensional",
     description:
-      "Okay, let’s be real—AI tools these days can spit out a coding solution in, like, 60 seconds. It’s awesome… until you realize you’re just copying one answer, nodding at it, and moving on. Where’s the depth? You’re missing out on different ways to tackle the problem, especially from people you actually vibe with in a tight community.",
+      "Okay, let's be real—AI tools these days can spit out a coding solution in, like, 60 seconds. It’s awesome… until you realize you’re just copying one answer, nodding at it, and moving on. Where’s the depth? You’re missing out on different ways to tackle the problem, especially from people you actually vibe with in a tight community.",
     content: (
       <div
         className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--cyan-500),var(--emerald-500))] text-white">
-        Collaborative Editing
+        Different Prespectives
       </div>
     ),
   },
@@ -20,13 +20,9 @@ const content = [
     description:
       "That’s where Code-Sockets comes in! With CodeBuddy Requests, you post your coding question and get answers from a real community of coders—folks who get the struggle. It’s all free, and you’re not just getting one solution; you’re seeing different angles from people you can actually connect with. Think of it as a group chat where everyone’s hyped to help you grow.",
     content: (
-      <div className="flex h-full w-full items-center justify-center text-white">
-        <img
-          src="/linear.webp"
-          width={300}
-          height={300}
-          className="h-full w-full object-cover"
-          alt="linear board demo" />
+      <div
+        className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--cyan-500),var(--emerald-500))] text-white">
+        New Ideas
       </div>
     ),
   },
@@ -37,7 +33,7 @@ const content = [
     content: (
       <div
         className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--orange-500),var(--yellow-500))] text-white">
-        Version control
+        Different Prespectives
       </div>
     ),
   },
@@ -48,7 +44,7 @@ const content = [
     content: (
       <div
         className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--cyan-500),var(--emerald-500))] text-white">
-        Running out of content
+        New Ideas
       </div>
     ),
   },

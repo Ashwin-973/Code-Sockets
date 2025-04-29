@@ -70,9 +70,9 @@ const StarTestimonial = ({ testimonials, mode = 'light' }) => {
                 <img
                   src={testimonial.image || 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}
                   alt='profile'
-                  width={50}
-                  height={50}
-                  className='rounded-full'
+                  // width={50}
+                  // height={50}
+                  className='size-14  rounded-full'
                 />
                 <div className='flex flex-col pl-4'>
                   <span className={`${mode === 'dark' ? 'text-white' : 'text-neutral-900'}`}>
@@ -89,7 +89,7 @@ const StarTestimonial = ({ testimonials, mode = 'light' }) => {
         {testimonials.length > maxDisplayedTestimonials && !showAll && (
           <div className='absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20'>
             <button
-              className='bg-white text-black px-4 py-2 rounded getstarted'
+              className='px-4 py-2 rounded-md button bg-amber-500 text-white text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center hover:bg-amber-300 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]'
               onClick={handleLoadMore}
             >
               Load More

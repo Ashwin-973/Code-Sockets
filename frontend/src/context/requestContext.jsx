@@ -2,7 +2,7 @@ import { useModal } from '../context/modelContext'
 import { createContext, useState, useContext,useEffect } from 'react';
 import {getRequests,getRequest,postRequest,deleteRequest,updateRequest} from '../services/codeRequestService'
 import { getSolutions ,submitSolution as apiSubmitSolution,confirmSolution} from '../services/codeSolutionService'; //maybe move this to SolutionContext
-import { useUserContext } from './userContext';
+import { useUserState } from './userContext';
 
 const RequestContext = createContext(undefined);
 

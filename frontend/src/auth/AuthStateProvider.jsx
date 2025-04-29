@@ -2,14 +2,14 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { fetchUser } from '../services/userService';
 
-const AuthStateContext = createContext(undefined);
+const UserContext = createContext(undefined);
 
-export function AuthStateProvider({ children }) {
-  const { user, isLoading: isAuthLoading } = useAuth0();
+export function UserProvider({ children }) {
+  const {user, isLoading: isAuthLoading } = useAuth0();
   const [authState, setAuthState] = useState({
     isLoading: true,
     isOnboarded: false,
-    userData: null,
+    currentUserData: null,
     error: null
   });
 
@@ -22,7 +22,7 @@ export function AuthStateProvider({ children }) {
         setAuthState({
           isLoading: false,
           isOnboarded: userData?.[0]?.onboarded ?? false,
-          userData: userData?.[0] || null,
+          currentUserData: userData?.[0] || null,
           error: null
         });
       } catch (err) {
@@ -37,6 +37,9 @@ export function AuthStateProvider({ children }) {
     initializeUser();
   }, [user?.sub]);
 
+
+  console.log("user",authState)
+
   // Expose methods to update auth state
   const updateAuthState = (newData) => {
     setAuthState(prev => ({
@@ -46,20 +49,20 @@ export function AuthStateProvider({ children }) {
   };
 
   return (
-    <AuthStateContext.Provider value={{ 
+    <UserContext.Provider value={{ 
       ...authState,
       isAuthLoading,
       updateAuthState 
     }}>
       {children}
-    </AuthStateContext.Provider>
+    </UserContext.Provider>
   );
 }
 
 export function useAuthState() {
-  const context = useContext(AuthStateContext);
+  const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useAuthState must be used within an AuthStateProvider');
+    throw new Error('useAuthState must be used within an UserProvider');
   }
   return context;
 }
